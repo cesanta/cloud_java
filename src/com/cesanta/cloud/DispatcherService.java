@@ -10,6 +10,7 @@ import com.cesanta.clubby.lib.Clubby;
 import com.cesanta.clubby.lib.CmdAdapter;
 import com.cesanta.clubby.lib.CmdListener;
 import com.cesanta.clubby.lib.CmdListenerWrapper;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public final class DispatcherService {
@@ -28,7 +29,7 @@ public final class DispatcherService {
     //-- Hello {{{
 
     public void hello(HelloArgs args, HelloListener listener) {
-        clubby.call(
+        clubby.callBackend(
                 "/v1/Dispatcher.Hello",
                 args,
                 new HelloListenerWrapper(listener)
@@ -82,6 +83,7 @@ public final class DispatcherService {
 
     //-- response {{{
 
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class HelloResponse {
     }
 
@@ -92,7 +94,7 @@ public final class DispatcherService {
     //-- RouteStats {{{
 
     public void routeStats(RouteStatsArgs args, RouteStatsListener listener) {
-        clubby.call(
+        clubby.callBackend(
                 "/v1/Dispatcher.RouteStats",
                 args,
                 new RouteStatsListenerWrapper(listener)

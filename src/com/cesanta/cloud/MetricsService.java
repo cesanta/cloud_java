@@ -30,7 +30,7 @@ public final class MetricsService {
     //-- Publish {{{
 
     public void publish(PublishArgs args, PublishListener listener) {
-        clubby.call(
+        clubby.callBackend(
                 "/v1/Metrics.Publish",
                 args,
                 new PublishListenerWrapper(listener)
