@@ -1,7 +1,6 @@
 
 package com.cesanta.cloud;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,11 +8,9 @@ import java.util.List;
 import com.cesanta.clubby.lib.Clubby;
 import com.cesanta.clubby.lib.CmdAdapter;
 import com.cesanta.clubby.lib.CmdListener;
-import com.cesanta.clubby.lib.CmdListenerWrapper;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public final class MetricsService {
 
@@ -33,7 +30,8 @@ public final class MetricsService {
         clubby.callBackend(
                 "/v1/Metrics.Publish",
                 args,
-                new PublishListenerWrapper(listener)
+                listener,
+                PublishResponse.class
                 );
     }
 
@@ -89,40 +87,10 @@ public final class MetricsService {
 
     //-- listener {{{
 
-    public static interface PublishListener extends CmdListener {
-        public void onResponse(PublishResponse response);
+    public static interface PublishListener extends CmdListener<PublishResponse> {
     }
 
-    public static class PublishAdapter extends CmdAdapter implements PublishListener {
-        @Override
-        public void onResponse(PublishResponse response) {}
-    }
-
-    public static class PublishListenerWrapper extends CmdListenerWrapper {
-
-        /*
-         * NOTE: hides the `CmdListenerWrapper.listener` field
-         */
-        PublishListener listener;
-
-        PublishListenerWrapper(PublishListener listener) {
-            this.listener = listener;
-
-            /*
-             * Since `listener` field hides the one of superclass, we need
-             * to set the superclass' field explicitly
-             */
-            super.listener = listener;
-        }
-
-        @Override
-        protected void onResponseGeneric(ObjectMapper mapper, String respStr) throws IOException {
-            this.listener.onResponse(
-                    mapper.readValue(
-                        respStr, MetricsService.PublishResponse.class
-                        )
-                    );
-        }
+    public static class PublishAdapter extends CmdAdapter<PublishResponse> implements PublishListener {
     }
 
     // }}}

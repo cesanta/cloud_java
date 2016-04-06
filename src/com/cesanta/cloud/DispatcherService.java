@@ -1,7 +1,6 @@
 
 package com.cesanta.cloud;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,9 +8,7 @@ import java.util.List;
 import com.cesanta.clubby.lib.Clubby;
 import com.cesanta.clubby.lib.CmdAdapter;
 import com.cesanta.clubby.lib.CmdListener;
-import com.cesanta.clubby.lib.CmdListenerWrapper;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public final class DispatcherService {
 
@@ -32,7 +29,8 @@ public final class DispatcherService {
         clubby.callBackend(
                 "/v1/Dispatcher.Hello",
                 args,
-                new HelloListenerWrapper(listener)
+                listener,
+                HelloResponse.class
                 );
     }
 
@@ -43,40 +41,10 @@ public final class DispatcherService {
 
     //-- listener {{{
 
-    public static interface HelloListener extends CmdListener {
-        public void onResponse(HelloResponse response);
+    public static interface HelloListener extends CmdListener<HelloResponse> {
     }
 
-    public static class HelloAdapter extends CmdAdapter implements HelloListener {
-        @Override
-        public void onResponse(HelloResponse response) {}
-    }
-
-    public static class HelloListenerWrapper extends CmdListenerWrapper {
-
-        /*
-         * NOTE: hides the `CmdListenerWrapper.listener` field
-         */
-        HelloListener listener;
-
-        HelloListenerWrapper(HelloListener listener) {
-            this.listener = listener;
-
-            /*
-             * Since `listener` field hides the one of superclass, we need
-             * to set the superclass' field explicitly
-             */
-            super.listener = listener;
-        }
-
-        @Override
-        protected void onResponseGeneric(ObjectMapper mapper, String respStr) throws IOException {
-            this.listener.onResponse(
-                    mapper.readValue(
-                        respStr, DispatcherService.HelloResponse.class
-                        )
-                    );
-        }
+    public static class HelloAdapter extends CmdAdapter<HelloResponse> implements HelloListener {
     }
 
     // }}}
@@ -97,7 +65,8 @@ public final class DispatcherService {
         clubby.callBackend(
                 "/v1/Dispatcher.RouteStats",
                 args,
-                new RouteStatsListenerWrapper(listener)
+                listener,
+                RouteStatsResponse.class
                 );
     }
 
@@ -120,40 +89,10 @@ public final class DispatcherService {
 
     //-- listener {{{
 
-    public static interface RouteStatsListener extends CmdListener {
-        public void onResponse(RouteStatsResponse response);
+    public static interface RouteStatsListener extends CmdListener<RouteStatsResponse> {
     }
 
-    public static class RouteStatsAdapter extends CmdAdapter implements RouteStatsListener {
-        @Override
-        public void onResponse(RouteStatsResponse response) {}
-    }
-
-    public static class RouteStatsListenerWrapper extends CmdListenerWrapper {
-
-        /*
-         * NOTE: hides the `CmdListenerWrapper.listener` field
-         */
-        RouteStatsListener listener;
-
-        RouteStatsListenerWrapper(RouteStatsListener listener) {
-            this.listener = listener;
-
-            /*
-             * Since `listener` field hides the one of superclass, we need
-             * to set the superclass' field explicitly
-             */
-            super.listener = listener;
-        }
-
-        @Override
-        protected void onResponseGeneric(ObjectMapper mapper, String respStr) throws IOException {
-            this.listener.onResponse(
-                    mapper.readValue(
-                        respStr, DispatcherService.RouteStatsResponse.class
-                        )
-                    );
-        }
+    public static class RouteStatsAdapter extends CmdAdapter<RouteStatsResponse> implements RouteStatsListener {
     }
 
     // }}}
