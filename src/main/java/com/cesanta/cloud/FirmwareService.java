@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.cesanta.clubby.lib.Clubby;
+import com.cesanta.clubby.lib.ClubbyOptions;
 import com.cesanta.clubby.lib.CmdListener;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class FirmwareService {
 
     private final Clubby clubby;
+    private ClubbyOptions defaultOpts;
 
     public static FirmwareService createInstance(Clubby clubby) {
         return new FirmwareService(clubby);
@@ -28,10 +30,34 @@ public final class FirmwareService {
 
     private FirmwareService(Clubby clubby) {
         this.clubby = clubby;
+        this.defaultOpts = clubby.getOptions();
     }
 
 
     //-- Create {{{
+
+    /**
+     * Registers a new firmware image.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      FirmwareService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void create(
+            FirmwareService.CreateArgs args,
+            CmdListener<FirmwareService.CreateResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Firmware.Create",
+                args,
+                listener,
+                FirmwareService.CreateResponse.class,
+                opts
+                );
+    }
 
     /**
      * Registers a new firmware image.
@@ -40,12 +66,7 @@ public final class FirmwareService {
             FirmwareService.CreateArgs args,
             CmdListener<FirmwareService.CreateResponse> listener
             ) {
-        clubby.callBackend(
-                "/v1/Firmware.Create",
-                args,
-                listener,
-                FirmwareService.CreateResponse.class
-                );
+        create(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -155,17 +176,35 @@ public final class FirmwareService {
 
     /**
      * Deletes the firmware image from the database.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      FirmwareService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void delete(
             FirmwareService.DeleteArgs args,
-            CmdListener<FirmwareService.DeleteResponse> listener
+            CmdListener<FirmwareService.DeleteResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Firmware.Delete",
                 args,
                 listener,
-                FirmwareService.DeleteResponse.class
+                FirmwareService.DeleteResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Deletes the firmware image from the database.
+     */
+    public void delete(
+            FirmwareService.DeleteArgs args,
+            CmdListener<FirmwareService.DeleteResponse> listener
+            ) {
+        delete(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -230,17 +269,35 @@ public final class FirmwareService {
 
     /**
      * Returns information about a given firmware.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      FirmwareService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void get(
             FirmwareService.GetArgs args,
-            CmdListener<FirmwareService.GetResponse> listener
+            CmdListener<FirmwareService.GetResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Firmware.Get",
                 args,
                 listener,
-                FirmwareService.GetResponse.class
+                FirmwareService.GetResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Returns information about a given firmware.
+     */
+    public void get(
+            FirmwareService.GetArgs args,
+            CmdListener<FirmwareService.GetResponse> listener
+            ) {
+        get(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -326,17 +383,35 @@ public final class FirmwareService {
 
     /**
      * Returns a list of firmware images registered in a given project.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      FirmwareService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void list(
             FirmwareService.ListArgs args,
-            CmdListener<FirmwareService.ListResponse> listener
+            CmdListener<FirmwareService.ListResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Firmware.List",
                 args,
                 listener,
-                FirmwareService.ListResponse.class
+                FirmwareService.ListResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Returns a list of firmware images registered in a given project.
+     */
+    public void list(
+            FirmwareService.ListArgs args,
+            CmdListener<FirmwareService.ListResponse> listener
+            ) {
+        list(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -418,17 +493,35 @@ public final class FirmwareService {
 
     /**
      * Allows to change the name of the firmware image.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      FirmwareService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void update(
             FirmwareService.UpdateArgs args,
-            CmdListener<FirmwareService.UpdateResponse> listener
+            CmdListener<FirmwareService.UpdateResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Firmware.Update",
                 args,
                 listener,
-                FirmwareService.UpdateResponse.class
+                FirmwareService.UpdateResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Allows to change the name of the firmware image.
+     */
+    public void update(
+            FirmwareService.UpdateArgs args,
+            CmdListener<FirmwareService.UpdateResponse> listener
+            ) {
+        update(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -505,5 +598,12 @@ public final class FirmwareService {
     // }}}
 
 
+    public void setDefaultOptions(ClubbyOptions opts) {
+        this.defaultOpts = ClubbyOptions.createFrom(opts);
+    }
+
+    public ClubbyOptions getOptions() {
+        return ClubbyOptions.createFrom(defaultOpts);
+    }
 }
 

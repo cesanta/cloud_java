@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.cesanta.clubby.lib.Clubby;
+import com.cesanta.clubby.lib.ClubbyOptions;
 import com.cesanta.clubby.lib.CmdListener;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class ProjectService {
 
     private final Clubby clubby;
+    private ClubbyOptions defaultOpts;
 
     public static ProjectService createInstance(Clubby clubby) {
         return new ProjectService(clubby);
@@ -28,10 +30,34 @@ public final class ProjectService {
 
     private ProjectService(Clubby clubby) {
         this.clubby = clubby;
+        this.defaultOpts = clubby.getOptions();
     }
 
 
     //-- AddDevice {{{
+
+    /**
+     * Adds a new device to the project.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      ProjectService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void addDevice(
+            ProjectService.AddDeviceArgs args,
+            CmdListener<ProjectService.AddDeviceResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Project.AddDevice",
+                args,
+                listener,
+                ProjectService.AddDeviceResponse.class,
+                opts
+                );
+    }
 
     /**
      * Adds a new device to the project.
@@ -40,12 +66,7 @@ public final class ProjectService {
             ProjectService.AddDeviceArgs args,
             CmdListener<ProjectService.AddDeviceResponse> listener
             ) {
-        clubby.callBackend(
-                "/v1/Project.AddDevice",
-                args,
-                listener,
-                ProjectService.AddDeviceResponse.class
-                );
+        addDevice(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -125,17 +146,35 @@ public final class ProjectService {
 
     /**
      * Checks if a given user has a specified level of access to a given project.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      ProjectService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void checkAccess(
             ProjectService.CheckAccessArgs args,
-            CmdListener<Boolean> listener
+            CmdListener<Boolean> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Project.CheckAccess",
                 args,
                 listener,
-                Boolean.class
+                Boolean.class,
+                opts
                 );
+    }
+
+    /**
+     * Checks if a given user has a specified level of access to a given project.
+     */
+    public void checkAccess(
+            ProjectService.CheckAccessArgs args,
+            CmdListener<Boolean> listener
+            ) {
+        checkAccess(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -206,17 +245,35 @@ public final class ProjectService {
 
     /**
      * Creates a new project.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      ProjectService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void create(
             ProjectService.CreateArgs args,
-            CmdListener<String> listener
+            CmdListener<String> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Project.Create",
                 args,
                 listener,
-                String.class
+                String.class,
+                opts
                 );
+    }
+
+    /**
+     * Creates a new project.
+     */
+    public void create(
+            ProjectService.CreateArgs args,
+            CmdListener<String> listener
+            ) {
+        create(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -287,17 +344,35 @@ public final class ProjectService {
 
     /**
      * Removes the devices from the project.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      ProjectService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void deleteDevice(
             ProjectService.DeleteDeviceArgs args,
-            CmdListener<ProjectService.DeleteDeviceResponse> listener
+            CmdListener<ProjectService.DeleteDeviceResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Project.DeleteDevice",
                 args,
                 listener,
-                ProjectService.DeleteDeviceResponse.class
+                ProjectService.DeleteDeviceResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Removes the devices from the project.
+     */
+    public void deleteDevice(
+            ProjectService.DeleteDeviceArgs args,
+            CmdListener<ProjectService.DeleteDeviceResponse> listener
+            ) {
+        deleteDevice(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -362,17 +437,35 @@ public final class ProjectService {
 
     /**
      * Sets access level to the project for the user.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      ProjectService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void grantAccess(
             ProjectService.GrantAccessArgs args,
-            CmdListener<ProjectService.GrantAccessResponse> listener
+            CmdListener<ProjectService.GrantAccessResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Project.GrantAccess",
                 args,
                 listener,
-                ProjectService.GrantAccessResponse.class
+                ProjectService.GrantAccessResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Sets access level to the project for the user.
+     */
+    public void grantAccess(
+            ProjectService.GrantAccessArgs args,
+            CmdListener<ProjectService.GrantAccessResponse> listener
+            ) {
+        grantAccess(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -452,17 +545,35 @@ public final class ProjectService {
 
     /**
      * Returns a list of projects the caller has access to.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      ProjectService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void list(
             ProjectService.ListArgs args,
-            CmdListener<ProjectService.ListResponse> listener
+            CmdListener<ProjectService.ListResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Project.List",
                 args,
                 listener,
-                ProjectService.ListResponse.class
+                ProjectService.ListResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Returns a list of projects the caller has access to.
+     */
+    public void list(
+            ProjectService.ListArgs args,
+            CmdListener<ProjectService.ListResponse> listener
+            ) {
+        list(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -513,17 +624,35 @@ public final class ProjectService {
 
     /**
      * Returns a list of devices in a given project.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      ProjectService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void listDevices(
             ProjectService.ListDevicesArgs args,
-            CmdListener<ProjectService.ListDevicesResponse> listener
+            CmdListener<ProjectService.ListDevicesResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Project.ListDevices",
                 args,
                 listener,
-                ProjectService.ListDevicesResponse.class
+                ProjectService.ListDevicesResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Returns a list of devices in a given project.
+     */
+    public void listDevices(
+            ProjectService.ListDevicesArgs args,
+            CmdListener<ProjectService.ListDevicesResponse> listener
+            ) {
+        listDevices(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -590,17 +719,35 @@ public final class ProjectService {
 
     /**
      * Deprecated method. Returns a list of devices in a project along with registration and last successful authentication timestamps.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      ProjectService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void listDevicesWithMetadata(
             ProjectService.ListDevicesWithMetadataArgs args,
-            CmdListener<ProjectService.ListDevicesWithMetadataResponse> listener
+            CmdListener<ProjectService.ListDevicesWithMetadataResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Project.ListDevicesWithMetadata",
                 args,
                 listener,
-                ProjectService.ListDevicesWithMetadataResponse.class
+                ProjectService.ListDevicesWithMetadataResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Deprecated method. Returns a list of devices in a project along with registration and last successful authentication timestamps.
+     */
+    public void listDevicesWithMetadata(
+            ProjectService.ListDevicesWithMetadataArgs args,
+            CmdListener<ProjectService.ListDevicesWithMetadataResponse> listener
+            ) {
+        listDevicesWithMetadata(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -685,17 +832,35 @@ public final class ProjectService {
 
     /**
      * Revokes access to the project for a given user.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      ProjectService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void revokeAccess(
             ProjectService.RevokeAccessArgs args,
-            CmdListener<ProjectService.RevokeAccessResponse> listener
+            CmdListener<ProjectService.RevokeAccessResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Project.RevokeAccess",
                 args,
                 listener,
-                ProjectService.RevokeAccessResponse.class
+                ProjectService.RevokeAccessResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Revokes access to the project for a given user.
+     */
+    public void revokeAccess(
+            ProjectService.RevokeAccessArgs args,
+            CmdListener<ProjectService.RevokeAccessResponse> listener
+            ) {
+        revokeAccess(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -757,5 +922,12 @@ public final class ProjectService {
     // }}}
 
 
+    public void setDefaultOptions(ClubbyOptions opts) {
+        this.defaultOpts = ClubbyOptions.createFrom(opts);
+    }
+
+    public ClubbyOptions getOptions() {
+        return ClubbyOptions.createFrom(defaultOpts);
+    }
 }
 

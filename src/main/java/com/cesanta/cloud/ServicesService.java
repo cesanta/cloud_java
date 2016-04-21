@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.cesanta.clubby.lib.Clubby;
+import com.cesanta.clubby.lib.ClubbyOptions;
 import com.cesanta.clubby.lib.CmdListener;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class ServicesService {
 
     private final Clubby clubby;
+    private ClubbyOptions defaultOpts;
 
     public static ServicesService createInstance(Clubby clubby) {
         return new ServicesService(clubby);
@@ -28,10 +30,34 @@ public final class ServicesService {
 
     private ServicesService(Clubby clubby) {
         this.clubby = clubby;
+        this.defaultOpts = clubby.getOptions();
     }
 
 
     //-- Get {{{
+
+    /**
+     * Get returns definitions of all services provided by the server.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      ServicesService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void get(
+            ServicesService.GetArgs args,
+            CmdListener<ServicesService.GetResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Services.Get",
+                args,
+                listener,
+                ServicesService.GetResponse.class,
+                opts
+                );
+    }
 
     /**
      * Get returns definitions of all services provided by the server.
@@ -40,12 +66,7 @@ public final class ServicesService {
             ServicesService.GetArgs args,
             CmdListener<ServicesService.GetResponse> listener
             ) {
-        clubby.callBackend(
-                "/v1/Services.Get",
-                args,
-                listener,
-                ServicesService.GetResponse.class
-                );
+        get(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -79,5 +100,12 @@ public final class ServicesService {
     // }}}
 
 
+    public void setDefaultOptions(ClubbyOptions opts) {
+        this.defaultOpts = ClubbyOptions.createFrom(opts);
+    }
+
+    public ClubbyOptions getOptions() {
+        return ClubbyOptions.createFrom(defaultOpts);
+    }
 }
 

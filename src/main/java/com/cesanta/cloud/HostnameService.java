@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.cesanta.clubby.lib.Clubby;
+import com.cesanta.clubby.lib.ClubbyOptions;
 import com.cesanta.clubby.lib.CmdListener;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class HostnameService {
 
     private final Clubby clubby;
+    private ClubbyOptions defaultOpts;
 
     public static HostnameService createInstance(Clubby clubby) {
         return new HostnameService(clubby);
@@ -28,10 +30,34 @@ public final class HostnameService {
 
     private HostnameService(Clubby clubby) {
         this.clubby = clubby;
+        this.defaultOpts = clubby.getOptions();
     }
 
 
     //-- Add {{{
+
+    /**
+     * Adds new hostname to the database.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      HostnameService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void add(
+            HostnameService.AddArgs args,
+            CmdListener<HostnameService.AddResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Hostname.Add",
+                args,
+                listener,
+                HostnameService.AddResponse.class,
+                opts
+                );
+    }
 
     /**
      * Adds new hostname to the database.
@@ -40,12 +66,7 @@ public final class HostnameService {
             HostnameService.AddArgs args,
             CmdListener<HostnameService.AddResponse> listener
             ) {
-        clubby.callBackend(
-                "/v1/Hostname.Add",
-                args,
-                listener,
-                HostnameService.AddResponse.class
-                );
+        add(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -125,17 +146,35 @@ public final class HostnameService {
 
     /**
      * Deletes the hostname from the database.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      HostnameService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void delete(
             HostnameService.DeleteArgs args,
-            CmdListener<HostnameService.DeleteResponse> listener
+            CmdListener<HostnameService.DeleteResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Hostname.Delete",
                 args,
                 listener,
-                HostnameService.DeleteResponse.class
+                HostnameService.DeleteResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Deletes the hostname from the database.
+     */
+    public void delete(
+            HostnameService.DeleteArgs args,
+            CmdListener<HostnameService.DeleteResponse> listener
+            ) {
+        delete(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -185,17 +224,35 @@ public final class HostnameService {
 
     /**
      * Returns info about the hostname.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      HostnameService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void get(
             HostnameService.GetArgs args,
-            CmdListener<HostnameService.GetResponse> listener
+            CmdListener<HostnameService.GetResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Hostname.Get",
                 args,
                 listener,
-                HostnameService.GetResponse.class
+                HostnameService.GetResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Returns info about the hostname.
+     */
+    public void get(
+            HostnameService.GetArgs args,
+            CmdListener<HostnameService.GetResponse> listener
+            ) {
+        get(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -250,17 +307,35 @@ public final class HostnameService {
 
     /**
      * Changes the root blobstore prefix.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      HostnameService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void update(
             HostnameService.UpdateArgs args,
-            CmdListener<HostnameService.UpdateResponse> listener
+            CmdListener<HostnameService.UpdateResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Hostname.Update",
                 args,
                 listener,
-                HostnameService.UpdateResponse.class
+                HostnameService.UpdateResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Changes the root blobstore prefix.
+     */
+    public void update(
+            HostnameService.UpdateArgs args,
+            CmdListener<HostnameService.UpdateResponse> listener
+            ) {
+        update(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -322,5 +397,12 @@ public final class HostnameService {
     // }}}
 
 
+    public void setDefaultOptions(ClubbyOptions opts) {
+        this.defaultOpts = ClubbyOptions.createFrom(opts);
+    }
+
+    public ClubbyOptions getOptions() {
+        return ClubbyOptions.createFrom(defaultOpts);
+    }
 }
 

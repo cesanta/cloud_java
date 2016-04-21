@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.cesanta.clubby.lib.Clubby;
+import com.cesanta.clubby.lib.ClubbyOptions;
 import com.cesanta.clubby.lib.CmdListener;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class LabelService {
 
     private final Clubby clubby;
+    private ClubbyOptions defaultOpts;
 
     public static LabelService createInstance(Clubby clubby) {
         return new LabelService(clubby);
@@ -28,10 +30,34 @@ public final class LabelService {
 
     private LabelService(Clubby clubby) {
         this.clubby = clubby;
+        this.defaultOpts = clubby.getOptions();
     }
 
 
     //-- Delete {{{
+
+    /**
+     * Deletes labels for devices.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      LabelService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void delete(
+            LabelService.DeleteArgs args,
+            CmdListener<LabelService.DeleteResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Label.Delete",
+                args,
+                listener,
+                LabelService.DeleteResponse.class,
+                opts
+                );
+    }
 
     /**
      * Deletes labels for devices.
@@ -40,12 +66,7 @@ public final class LabelService {
             LabelService.DeleteArgs args,
             CmdListener<LabelService.DeleteResponse> listener
             ) {
-        clubby.callBackend(
-                "/v1/Label.Delete",
-                args,
-                listener,
-                LabelService.DeleteResponse.class
-                );
+        delete(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -110,17 +131,35 @@ public final class LabelService {
 
     /**
      * Returns labels set on a particular devices.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      LabelService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void get(
             LabelService.GetArgs args,
-            CmdListener<LabelService.GetResponse> listener
+            CmdListener<LabelService.GetResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Label.Get",
                 args,
                 listener,
-                LabelService.GetResponse.class
+                LabelService.GetResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Returns labels set on a particular devices.
+     */
+    public void get(
+            LabelService.GetArgs args,
+            CmdListener<LabelService.GetResponse> listener
+            ) {
+        get(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -201,17 +240,35 @@ public final class LabelService {
 
     /**
      * Sets labels for devices.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      LabelService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void set(
             LabelService.SetArgs args,
-            CmdListener<LabelService.SetResponse> listener
+            CmdListener<LabelService.SetResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Label.Set",
                 args,
                 listener,
-                LabelService.SetResponse.class
+                LabelService.SetResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Sets labels for devices.
+     */
+    public void set(
+            LabelService.SetArgs args,
+            CmdListener<LabelService.SetResponse> listener
+            ) {
+        set(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -273,5 +330,12 @@ public final class LabelService {
     // }}}
 
 
+    public void setDefaultOptions(ClubbyOptions opts) {
+        this.defaultOpts = ClubbyOptions.createFrom(opts);
+    }
+
+    public ClubbyOptions getOptions() {
+        return ClubbyOptions.createFrom(defaultOpts);
+    }
 }
 

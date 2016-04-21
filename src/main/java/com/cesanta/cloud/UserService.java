@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.cesanta.clubby.lib.Clubby;
+import com.cesanta.clubby.lib.ClubbyOptions;
 import com.cesanta.clubby.lib.CmdListener;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class UserService {
 
     private final Clubby clubby;
+    private ClubbyOptions defaultOpts;
 
     public static UserService createInstance(Clubby clubby) {
         return new UserService(clubby);
@@ -28,10 +30,34 @@ public final class UserService {
 
     private UserService(Clubby clubby) {
         this.clubby = clubby;
+        this.defaultOpts = clubby.getOptions();
     }
 
 
     //-- Create {{{
+
+    /**
+     * Creates a new user. Can only be called by the frontend.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      UserService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void create(
+            UserService.CreateArgs args,
+            CmdListener<UserService.CreateResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/User.Create",
+                args,
+                listener,
+                UserService.CreateResponse.class,
+                opts
+                );
+    }
 
     /**
      * Creates a new user. Can only be called by the frontend.
@@ -40,12 +66,7 @@ public final class UserService {
             UserService.CreateArgs args,
             CmdListener<UserService.CreateResponse> listener
             ) {
-        clubby.callBackend(
-                "/v1/User.Create",
-                args,
-                listener,
-                UserService.CreateResponse.class
-                );
+        create(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -140,17 +161,35 @@ public final class UserService {
 
     /**
      * Retrieves info about an existing user.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      UserService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void get(
             UserService.GetArgs args,
-            CmdListener<UserService.GetResponse> listener
+            CmdListener<UserService.GetResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/User.Get",
                 args,
                 listener,
-                UserService.GetResponse.class
+                UserService.GetResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Retrieves info about an existing user.
+     */
+    public void get(
+            UserService.GetArgs args,
+            CmdListener<UserService.GetResponse> listener
+            ) {
+        get(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -202,5 +241,12 @@ public final class UserService {
     // }}}
 
 
+    public void setDefaultOptions(ClubbyOptions opts) {
+        this.defaultOpts = ClubbyOptions.createFrom(opts);
+    }
+
+    public ClubbyOptions getOptions() {
+        return ClubbyOptions.createFrom(defaultOpts);
+    }
 }
 

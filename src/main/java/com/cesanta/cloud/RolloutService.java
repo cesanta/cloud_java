@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.cesanta.clubby.lib.Clubby;
+import com.cesanta.clubby.lib.ClubbyOptions;
 import com.cesanta.clubby.lib.CmdListener;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class RolloutService {
 
     private final Clubby clubby;
+    private ClubbyOptions defaultOpts;
 
     public static RolloutService createInstance(Clubby clubby) {
         return new RolloutService(clubby);
@@ -28,10 +30,34 @@ public final class RolloutService {
 
     private RolloutService(Clubby clubby) {
         this.clubby = clubby;
+        this.defaultOpts = clubby.getOptions();
     }
 
 
     //-- AddDevices {{{
+
+    /**
+     * Adds devices to the rollout. Mostly used by the backend.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      RolloutService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void addDevices(
+            RolloutService.AddDevicesArgs args,
+            CmdListener<RolloutService.AddDevicesResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Rollout.AddDevices",
+                args,
+                listener,
+                RolloutService.AddDevicesResponse.class,
+                opts
+                );
+    }
 
     /**
      * Adds devices to the rollout. Mostly used by the backend.
@@ -40,12 +66,7 @@ public final class RolloutService {
             RolloutService.AddDevicesArgs args,
             CmdListener<RolloutService.AddDevicesResponse> listener
             ) {
-        clubby.callBackend(
-                "/v1/Rollout.AddDevices",
-                args,
-                listener,
-                RolloutService.AddDevicesResponse.class
-                );
+        addDevices(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -125,17 +146,35 @@ public final class RolloutService {
 
     /**
      * Creates new rollout.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      RolloutService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void create(
             RolloutService.CreateArgs args,
-            CmdListener<RolloutService.CreateResponse> listener
+            CmdListener<RolloutService.CreateResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Rollout.Create",
                 args,
                 listener,
-                RolloutService.CreateResponse.class
+                RolloutService.CreateResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Creates new rollout.
+     */
+    public void create(
+            RolloutService.CreateArgs args,
+            CmdListener<RolloutService.CreateResponse> listener
+            ) {
+        create(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -230,17 +269,35 @@ public final class RolloutService {
 
     /**
      * Deletes the rollout.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      RolloutService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void delete(
             RolloutService.DeleteArgs args,
-            CmdListener<RolloutService.DeleteResponse> listener
+            CmdListener<RolloutService.DeleteResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Rollout.Delete",
                 args,
                 listener,
-                RolloutService.DeleteResponse.class
+                RolloutService.DeleteResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Deletes the rollout.
+     */
+    public void delete(
+            RolloutService.DeleteArgs args,
+            CmdListener<RolloutService.DeleteResponse> listener
+            ) {
+        delete(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -305,17 +362,35 @@ public final class RolloutService {
 
     /**
      * Returns info about a particular rollout.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      RolloutService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void get(
             RolloutService.GetArgs args,
-            CmdListener<RolloutService.GetResponse> listener
+            CmdListener<RolloutService.GetResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Rollout.Get",
                 args,
                 listener,
-                RolloutService.GetResponse.class
+                RolloutService.GetResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Returns info about a particular rollout.
+     */
+    public void get(
+            RolloutService.GetArgs args,
+            CmdListener<RolloutService.GetResponse> listener
+            ) {
+        get(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -397,17 +472,35 @@ public final class RolloutService {
 
     /**
      * Returns info about rollouts. If `projectid` and/or `state` are specified, only matching rollouts will be returned.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      RolloutService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void list(
             RolloutService.ListArgs args,
-            CmdListener<RolloutService.ListResponse> listener
+            CmdListener<RolloutService.ListResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Rollout.List",
                 args,
                 listener,
-                RolloutService.ListResponse.class
+                RolloutService.ListResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Returns info about rollouts. If `projectid` and/or `state` are specified, only matching rollouts will be returned.
+     */
+    public void list(
+            RolloutService.ListArgs args,
+            CmdListener<RolloutService.ListResponse> listener
+            ) {
+        list(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -504,17 +597,35 @@ public final class RolloutService {
 
     /**
      * Returns the list of devices previously added to the rollout.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      RolloutService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void listDevices(
             RolloutService.ListDevicesArgs args,
-            CmdListener<RolloutService.ListDevicesResponse> listener
+            CmdListener<RolloutService.ListDevicesResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Rollout.ListDevices",
                 args,
                 listener,
-                RolloutService.ListDevicesResponse.class
+                RolloutService.ListDevicesResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Returns the list of devices previously added to the rollout.
+     */
+    public void listDevices(
+            RolloutService.ListDevicesArgs args,
+            CmdListener<RolloutService.ListDevicesResponse> listener
+            ) {
+        listDevices(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -599,17 +710,35 @@ public final class RolloutService {
 
     /**
      * Changes the state of the device in rollout. Used by the backend.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      RolloutService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void setDeviceState(
             RolloutService.SetDeviceStateArgs args,
-            CmdListener<RolloutService.SetDeviceStateResponse> listener
+            CmdListener<RolloutService.SetDeviceStateResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Rollout.SetDeviceState",
                 args,
                 listener,
-                RolloutService.SetDeviceStateResponse.class
+                RolloutService.SetDeviceStateResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Changes the state of the device in rollout. Used by the backend.
+     */
+    public void setDeviceState(
+            RolloutService.SetDeviceStateArgs args,
+            CmdListener<RolloutService.SetDeviceStateResponse> listener
+            ) {
+        setDeviceState(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -716,17 +845,35 @@ public final class RolloutService {
 
     /**
      * Changes state of the rollout.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      RolloutService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void setState(
             RolloutService.SetStateArgs args,
-            CmdListener<RolloutService.SetStateResponse> listener
+            CmdListener<RolloutService.SetStateResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Rollout.SetState",
                 args,
                 listener,
-                RolloutService.SetStateResponse.class
+                RolloutService.SetStateResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Changes state of the rollout.
+     */
+    public void setState(
+            RolloutService.SetStateArgs args,
+            CmdListener<RolloutService.SetStateResponse> listener
+            ) {
+        setState(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -803,5 +950,12 @@ public final class RolloutService {
     // }}}
 
 
+    public void setDefaultOptions(ClubbyOptions opts) {
+        this.defaultOpts = ClubbyOptions.createFrom(opts);
+    }
+
+    public ClubbyOptions getOptions() {
+        return ClubbyOptions.createFrom(defaultOpts);
+    }
 }
 

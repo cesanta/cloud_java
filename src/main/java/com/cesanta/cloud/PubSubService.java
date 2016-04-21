@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.cesanta.clubby.lib.Clubby;
+import com.cesanta.clubby.lib.ClubbyOptions;
 import com.cesanta.clubby.lib.CmdListener;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class PubSubService {
 
     private final Clubby clubby;
+    private ClubbyOptions defaultOpts;
 
     public static PubSubService createInstance(Clubby clubby) {
         return new PubSubService(clubby);
@@ -28,10 +30,34 @@ public final class PubSubService {
 
     private PubSubService(Clubby clubby) {
         this.clubby = clubby;
+        this.defaultOpts = clubby.getOptions();
     }
 
 
     //-- Ack {{{
+
+    /**
+     * Acknowledge one or more messages.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      PubSubService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void ack(
+            PubSubService.AckArgs args,
+            CmdListener<PubSubService.AckResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/PubSub.Ack",
+                args,
+                listener,
+                PubSubService.AckResponse.class,
+                opts
+                );
+    }
 
     /**
      * Acknowledge one or more messages.
@@ -40,12 +66,7 @@ public final class PubSubService {
             PubSubService.AckArgs args,
             CmdListener<PubSubService.AckResponse> listener
             ) {
-        clubby.callBackend(
-                "/v1/PubSub.Ack",
-                args,
-                listener,
-                PubSubService.AckResponse.class
-                );
+        ack(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -110,17 +131,35 @@ public final class PubSubService {
 
     /**
      * Creates a new subscription to a given topic. If messages are not acknowledged in `deadline` seconds they will be resent.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      PubSubService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void createSubscription(
             PubSubService.CreateSubscriptionArgs args,
-            CmdListener<PubSubService.CreateSubscriptionResponse> listener
+            CmdListener<PubSubService.CreateSubscriptionResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/PubSub.CreateSubscription",
                 args,
                 listener,
-                PubSubService.CreateSubscriptionResponse.class
+                PubSubService.CreateSubscriptionResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Creates a new subscription to a given topic. If messages are not acknowledged in `deadline` seconds they will be resent.
+     */
+    public void createSubscription(
+            PubSubService.CreateSubscriptionArgs args,
+            CmdListener<PubSubService.CreateSubscriptionResponse> listener
+            ) {
+        createSubscription(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -200,17 +239,35 @@ public final class PubSubService {
 
     /**
      * Creates a new topic.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      PubSubService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void createTopic(
             PubSubService.CreateTopicArgs args,
-            CmdListener<PubSubService.CreateTopicResponse> listener
+            CmdListener<PubSubService.CreateTopicResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/PubSub.CreateTopic",
                 args,
                 listener,
-                PubSubService.CreateTopicResponse.class
+                PubSubService.CreateTopicResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Creates a new topic.
+     */
+    public void createTopic(
+            PubSubService.CreateTopicArgs args,
+            CmdListener<PubSubService.CreateTopicResponse> listener
+            ) {
+        createTopic(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -260,17 +317,35 @@ public final class PubSubService {
 
     /**
      * Deletes a new subscription.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      PubSubService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void deleteSubscription(
             PubSubService.DeleteSubscriptionArgs args,
-            CmdListener<PubSubService.DeleteSubscriptionResponse> listener
+            CmdListener<PubSubService.DeleteSubscriptionResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/PubSub.DeleteSubscription",
                 args,
                 listener,
-                PubSubService.DeleteSubscriptionResponse.class
+                PubSubService.DeleteSubscriptionResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Deletes a new subscription.
+     */
+    public void deleteSubscription(
+            PubSubService.DeleteSubscriptionArgs args,
+            CmdListener<PubSubService.DeleteSubscriptionResponse> listener
+            ) {
+        deleteSubscription(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -320,17 +395,35 @@ public final class PubSubService {
 
     /**
      * Deletes a topic.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      PubSubService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void deleteTopic(
             PubSubService.DeleteTopicArgs args,
-            CmdListener<PubSubService.DeleteTopicResponse> listener
+            CmdListener<PubSubService.DeleteTopicResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/PubSub.DeleteTopic",
                 args,
                 listener,
-                PubSubService.DeleteTopicResponse.class
+                PubSubService.DeleteTopicResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Deletes a topic.
+     */
+    public void deleteTopic(
+            PubSubService.DeleteTopicArgs args,
+            CmdListener<PubSubService.DeleteTopicResponse> listener
+            ) {
+        deleteTopic(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -380,17 +473,35 @@ public final class PubSubService {
 
     /**
      * Extend ack deadline for one or more messages. The new deadline is measured relative the this command. The deadline, measured in seconds, must be >= 0.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      PubSubService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void extendDeadline(
             PubSubService.ExtendDeadlineArgs args,
-            CmdListener<PubSubService.ExtendDeadlineResponse> listener
+            CmdListener<PubSubService.ExtendDeadlineResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/PubSub.ExtendDeadline",
                 args,
                 listener,
-                PubSubService.ExtendDeadlineResponse.class
+                PubSubService.ExtendDeadlineResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Extend ack deadline for one or more messages. The new deadline is measured relative the this command. The deadline, measured in seconds, must be >= 0.
+     */
+    public void extendDeadline(
+            PubSubService.ExtendDeadlineArgs args,
+            CmdListener<PubSubService.ExtendDeadlineResponse> listener
+            ) {
+        extendDeadline(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -470,17 +581,35 @@ public final class PubSubService {
 
     /**
      * Publish a message to a topic.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      PubSubService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void publish(
             PubSubService.PublishArgs args,
-            CmdListener<PubSubService.PublishResponse> listener
+            CmdListener<PubSubService.PublishResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/PubSub.Publish",
                 args,
                 listener,
-                PubSubService.PublishResponse.class
+                PubSubService.PublishResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Publish a message to a topic.
+     */
+    public void publish(
+            PubSubService.PublishArgs args,
+            CmdListener<PubSubService.PublishResponse> listener
+            ) {
+        publish(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -545,17 +674,35 @@ public final class PubSubService {
 
     /**
      * Pull messages from a subscription.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      PubSubService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void pull(
             PubSubService.PullArgs args,
-            CmdListener<PubSubService.PullResponse> listener
+            CmdListener<PubSubService.PullResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/PubSub.Pull",
                 args,
                 listener,
-                PubSubService.PullResponse.class
+                PubSubService.PullResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Pull messages from a subscription.
+     */
+    public void pull(
+            PubSubService.PullArgs args,
+            CmdListener<PubSubService.PullResponse> listener
+            ) {
+        pull(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -628,5 +775,12 @@ public final class PubSubService {
     // }}}
 
 
+    public void setDefaultOptions(ClubbyOptions opts) {
+        this.defaultOpts = ClubbyOptions.createFrom(opts);
+    }
+
+    public ClubbyOptions getOptions() {
+        return ClubbyOptions.createFrom(defaultOpts);
+    }
 }
 

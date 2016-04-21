@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.cesanta.clubby.lib.Clubby;
+import com.cesanta.clubby.lib.ClubbyOptions;
 import com.cesanta.clubby.lib.CmdListener;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class WorkspaceService {
 
     private final Clubby clubby;
+    private ClubbyOptions defaultOpts;
 
     public static WorkspaceService createInstance(Clubby clubby) {
         return new WorkspaceService(clubby);
@@ -28,10 +30,34 @@ public final class WorkspaceService {
 
     private WorkspaceService(Clubby clubby) {
         this.clubby = clubby;
+        this.defaultOpts = clubby.getOptions();
     }
 
 
     //-- Create {{{
+
+    /**
+     * Create new workspace filled with a skeleton project.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      WorkspaceService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void create(
+            WorkspaceService.CreateArgs args,
+            CmdListener<WorkspaceService.CreateResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Workspace.Create",
+                args,
+                listener,
+                WorkspaceService.CreateResponse.class,
+                opts
+                );
+    }
 
     /**
      * Create new workspace filled with a skeleton project.
@@ -40,12 +66,7 @@ public final class WorkspaceService {
             WorkspaceService.CreateArgs args,
             CmdListener<WorkspaceService.CreateResponse> listener
             ) {
-        clubby.callBackend(
-                "/v1/Workspace.Create",
-                args,
-                listener,
-                WorkspaceService.CreateResponse.class
-                );
+        create(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -127,17 +148,35 @@ public final class WorkspaceService {
 
     /**
      * Delete a workspace.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      WorkspaceService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void delete(
             WorkspaceService.DeleteArgs args,
-            CmdListener<WorkspaceService.DeleteResponse> listener
+            CmdListener<WorkspaceService.DeleteResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Workspace.Delete",
                 args,
                 listener,
-                WorkspaceService.DeleteResponse.class
+                WorkspaceService.DeleteResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Delete a workspace.
+     */
+    public void delete(
+            WorkspaceService.DeleteArgs args,
+            CmdListener<WorkspaceService.DeleteResponse> listener
+            ) {
+        delete(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -184,17 +223,35 @@ public final class WorkspaceService {
 
     /**
      * Pack the workspace in a zip and provide the raw bytes
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      WorkspaceService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void download(
             WorkspaceService.DownloadArgs args,
-            CmdListener<Object> listener
+            CmdListener<Object> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Workspace.Download",
                 args,
                 listener,
-                Object.class
+                Object.class,
+                opts
                 );
+    }
+
+    /**
+     * Pack the workspace in a zip and provide the raw bytes
+     */
+    public void download(
+            WorkspaceService.DownloadArgs args,
+            CmdListener<Object> listener
+            ) {
+        download(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -232,17 +289,35 @@ public final class WorkspaceService {
 
     /**
      * List workspaces
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      WorkspaceService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void list(
             WorkspaceService.ListArgs args,
-            CmdListener<WorkspaceService.ListResponse> listener
+            CmdListener<WorkspaceService.ListResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Workspace.List",
                 args,
                 listener,
-                WorkspaceService.ListResponse.class
+                WorkspaceService.ListResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * List workspaces
+     */
+    public void list(
+            WorkspaceService.ListArgs args,
+            CmdListener<WorkspaceService.ListResponse> listener
+            ) {
+        list(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -325,17 +400,35 @@ public final class WorkspaceService {
 
     /**
      * List templates. All templates visible to the given caller will be listed
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      WorkspaceService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void listTemplates(
             WorkspaceService.ListTemplatesArgs args,
-            CmdListener<WorkspaceService.ListTemplatesResponse> listener
+            CmdListener<WorkspaceService.ListTemplatesResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Workspace.ListTemplates",
                 args,
                 listener,
-                WorkspaceService.ListTemplatesResponse.class
+                WorkspaceService.ListTemplatesResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * List templates. All templates visible to the given caller will be listed
+     */
+    public void listTemplates(
+            WorkspaceService.ListTemplatesArgs args,
+            CmdListener<WorkspaceService.ListTemplatesResponse> listener
+            ) {
+        listTemplates(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -369,5 +462,12 @@ public final class WorkspaceService {
     // }}}
 
 
+    public void setDefaultOptions(ClubbyOptions opts) {
+        this.defaultOpts = ClubbyOptions.createFrom(opts);
+    }
+
+    public ClubbyOptions getOptions() {
+        return ClubbyOptions.createFrom(defaultOpts);
+    }
 }
 

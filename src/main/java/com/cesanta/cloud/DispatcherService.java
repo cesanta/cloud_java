@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.cesanta.clubby.lib.Clubby;
+import com.cesanta.clubby.lib.ClubbyOptions;
 import com.cesanta.clubby.lib.CmdListener;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class DispatcherService {
 
     private final Clubby clubby;
+    private ClubbyOptions defaultOpts;
 
     public static DispatcherService createInstance(Clubby clubby) {
         return new DispatcherService(clubby);
@@ -28,10 +30,34 @@ public final class DispatcherService {
 
     private DispatcherService(Clubby clubby) {
         this.clubby = clubby;
+        this.defaultOpts = clubby.getOptions();
     }
 
 
     //-- Hello {{{
+
+    /**
+     * A simple echo service.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      DispatcherService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void hello(
+            DispatcherService.HelloArgs args,
+            CmdListener<DispatcherService.HelloResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Dispatcher.Hello",
+                args,
+                listener,
+                DispatcherService.HelloResponse.class,
+                opts
+                );
+    }
 
     /**
      * A simple echo service.
@@ -40,12 +66,7 @@ public final class DispatcherService {
             DispatcherService.HelloArgs args,
             CmdListener<DispatcherService.HelloResponse> listener
             ) {
-        clubby.callBackend(
-                "/v1/Dispatcher.Hello",
-                args,
-                listener,
-                DispatcherService.HelloResponse.class
-                );
+        hello(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -80,17 +101,35 @@ public final class DispatcherService {
 
     /**
      * Gets channel stats for one or more IDs.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      DispatcherService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void routeStats(
             DispatcherService.RouteStatsArgs args,
-            CmdListener<DispatcherService.RouteStatsResponse> listener
+            CmdListener<DispatcherService.RouteStatsResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Dispatcher.RouteStats",
                 args,
                 listener,
-                DispatcherService.RouteStatsResponse.class
+                DispatcherService.RouteStatsResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Gets channel stats for one or more IDs.
+     */
+    public void routeStats(
+            DispatcherService.RouteStatsArgs args,
+            CmdListener<DispatcherService.RouteStatsResponse> listener
+            ) {
+        routeStats(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -173,5 +212,12 @@ public final class DispatcherService {
     // }}}
 
 
+    public void setDefaultOptions(ClubbyOptions opts) {
+        this.defaultOpts = ClubbyOptions.createFrom(opts);
+    }
+
+    public ClubbyOptions getOptions() {
+        return ClubbyOptions.createFrom(defaultOpts);
+    }
 }
 

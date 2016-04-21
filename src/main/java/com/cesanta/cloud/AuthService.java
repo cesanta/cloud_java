@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.cesanta.clubby.lib.Clubby;
+import com.cesanta.clubby.lib.ClubbyOptions;
 import com.cesanta.clubby.lib.CmdListener;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class AuthService {
 
     private final Clubby clubby;
+    private ClubbyOptions defaultOpts;
 
     public static AuthService createInstance(Clubby clubby) {
         return new AuthService(clubby);
@@ -28,10 +30,34 @@ public final class AuthService {
 
     private AuthService(Clubby clubby) {
         this.clubby = clubby;
+        this.defaultOpts = clubby.getOptions();
     }
 
 
     //-- Authenticate {{{
+
+    /**
+     * Authenticate returns true if `id` is verified to have valid credentials.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AuthService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void authenticate(
+            AuthService.AuthenticateArgs args,
+            CmdListener<Boolean> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Auth.Authenticate",
+                args,
+                listener,
+                Boolean.class,
+                opts
+                );
+    }
 
     /**
      * Authenticate returns true if `id` is verified to have valid credentials.
@@ -40,12 +66,7 @@ public final class AuthService {
             AuthService.AuthenticateArgs args,
             CmdListener<Boolean> listener
             ) {
-        clubby.callBackend(
-                "/v1/Auth.Authenticate",
-                args,
-                listener,
-                Boolean.class
-                );
+        authenticate(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -131,17 +152,35 @@ public final class AuthService {
 
     /**
      * AuthorizeCommand returns true if `src` is allowed to send a given command to `dst`.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AuthService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void authorizeCommand(
             AuthService.AuthorizeCommandArgs args,
-            CmdListener<Boolean> listener
+            CmdListener<Boolean> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Auth.AuthorizeCommand",
                 args,
                 listener,
-                Boolean.class
+                Boolean.class,
+                opts
                 );
+    }
+
+    /**
+     * AuthorizeCommand returns true if `src` is allowed to send a given command to `dst`.
+     */
+    public void authorizeCommand(
+            AuthService.AuthorizeCommandArgs args,
+            CmdListener<Boolean> listener
+            ) {
+        authorizeCommand(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -209,5 +248,12 @@ public final class AuthService {
     // }}}
 
 
+    public void setDefaultOptions(ClubbyOptions opts) {
+        this.defaultOpts = ClubbyOptions.createFrom(opts);
+    }
+
+    public ClubbyOptions getOptions() {
+        return ClubbyOptions.createFrom(defaultOpts);
+    }
 }
 

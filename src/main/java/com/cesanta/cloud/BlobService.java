@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.cesanta.clubby.lib.Clubby;
+import com.cesanta.clubby.lib.ClubbyOptions;
 import com.cesanta.clubby.lib.CmdListener;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class BlobService {
 
     private final Clubby clubby;
+    private ClubbyOptions defaultOpts;
 
     public static BlobService createInstance(Clubby clubby) {
         return new BlobService(clubby);
@@ -28,10 +30,34 @@ public final class BlobService {
 
     private BlobService(Clubby clubby) {
         this.clubby = clubby;
+        this.defaultOpts = clubby.getOptions();
     }
 
 
     //-- Delete {{{
+
+    /**
+     * Deletes the given keys.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      BlobService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void delete(
+            BlobService.DeleteArgs args,
+            CmdListener<BlobService.DeleteResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Blob.Delete",
+                args,
+                listener,
+                BlobService.DeleteResponse.class,
+                opts
+                );
+    }
 
     /**
      * Deletes the given keys.
@@ -40,12 +66,7 @@ public final class BlobService {
             BlobService.DeleteArgs args,
             CmdListener<BlobService.DeleteResponse> listener
             ) {
-        clubby.callBackend(
-                "/v1/Blob.Delete",
-                args,
-                listener,
-                BlobService.DeleteResponse.class
-                );
+        delete(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -95,17 +116,35 @@ public final class BlobService {
 
     /**
      * 
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      BlobService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void get(
             BlobService.GetArgs args,
-            CmdListener<Object> listener
+            CmdListener<Object> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Blob.Get",
                 args,
                 listener,
-                Object.class
+                Object.class,
+                opts
                 );
+    }
+
+    /**
+     * 
+     */
+    public void get(
+            BlobService.GetArgs args,
+            CmdListener<Object> listener
+            ) {
+        get(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -146,17 +185,35 @@ public final class BlobService {
 
     /**
      * Returns a list of all keys with a given prefix. Within that prefix, items can be iterated from a specific start key (inclusive), up to an optional end key (non inclusive). If inclusive is false (true by default), then the start key is non inclusive. The result can be limited to a given number of items with the limit parameter.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      BlobService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void list(
             BlobService.ListArgs args,
-            CmdListener<BlobService.ListResponse> listener
+            CmdListener<BlobService.ListResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Blob.List",
                 args,
                 listener,
-                BlobService.ListResponse.class
+                BlobService.ListResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Returns a list of all keys with a given prefix. Within that prefix, items can be iterated from a specific start key (inclusive), up to an optional end key (non inclusive). If inclusive is false (true by default), then the start key is non inclusive. The result can be limited to a given number of items with the limit parameter.
+     */
+    public void list(
+            BlobService.ListArgs args,
+            CmdListener<BlobService.ListResponse> listener
+            ) {
+        list(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -268,17 +325,35 @@ public final class BlobService {
 
     /**
      * Stores data at a given key. If binary flag is set, value must be an array of numbers in 0-255 range.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      BlobService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void set(
             BlobService.SetArgs args,
-            CmdListener<BlobService.SetResponse> listener
+            CmdListener<BlobService.SetResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Blob.Set",
                 args,
                 listener,
-                BlobService.SetResponse.class
+                BlobService.SetResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Stores data at a given key. If binary flag is set, value must be an array of numbers in 0-255 range.
+     */
+    public void set(
+            BlobService.SetArgs args,
+            CmdListener<BlobService.SetResponse> listener
+            ) {
+        set(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -355,5 +430,12 @@ public final class BlobService {
     // }}}
 
 
+    public void setDefaultOptions(ClubbyOptions opts) {
+        this.defaultOpts = ClubbyOptions.createFrom(opts);
+    }
+
+    public ClubbyOptions getOptions() {
+        return ClubbyOptions.createFrom(defaultOpts);
+    }
 }
 

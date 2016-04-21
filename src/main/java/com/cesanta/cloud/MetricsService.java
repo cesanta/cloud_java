@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.cesanta.clubby.lib.Clubby;
+import com.cesanta.clubby.lib.ClubbyOptions;
 import com.cesanta.clubby.lib.CmdListener;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class MetricsService {
 
     private final Clubby clubby;
+    private ClubbyOptions defaultOpts;
 
     public static MetricsService createInstance(Clubby clubby) {
         return new MetricsService(clubby);
@@ -28,10 +30,34 @@ public final class MetricsService {
 
     private MetricsService(Clubby clubby) {
         this.clubby = clubby;
+        this.defaultOpts = clubby.getOptions();
     }
 
 
     //-- Publish {{{
+
+    /**
+     * Publish adds new values to the storage. Label 'src' is implicitly added to each timeseries.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      MetricsService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void publish(
+            MetricsService.PublishArgs args,
+            CmdListener<MetricsService.PublishResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Metrics.Publish",
+                args,
+                listener,
+                MetricsService.PublishResponse.class,
+                opts
+                );
+    }
 
     /**
      * Publish adds new values to the storage. Label 'src' is implicitly added to each timeseries.
@@ -40,12 +66,7 @@ public final class MetricsService {
             MetricsService.PublishArgs args,
             CmdListener<MetricsService.PublishResponse> listener
             ) {
-        clubby.callBackend(
-                "/v1/Metrics.Publish",
-                args,
-                listener,
-                MetricsService.PublishResponse.class
-                );
+        publish(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -156,17 +177,35 @@ public final class MetricsService {
 
     /**
      * Query returns the result of executing `query` on the data stored. `query` uses Prometheus query language.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      MetricsService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void query(
             MetricsService.QueryArgs args,
-            CmdListener<MetricsService.QueryResponse> listener
+            CmdListener<MetricsService.QueryResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Metrics.Query",
                 args,
                 listener,
-                MetricsService.QueryResponse.class
+                MetricsService.QueryResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Query returns the result of executing `query` on the data stored. `query` uses Prometheus query language.
+     */
+    public void query(
+            MetricsService.QueryArgs args,
+            CmdListener<MetricsService.QueryResponse> listener
+            ) {
+        query(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -247,5 +286,12 @@ public final class MetricsService {
     // }}}
 
 
+    public void setDefaultOptions(ClubbyOptions opts) {
+        this.defaultOpts = ClubbyOptions.createFrom(opts);
+    }
+
+    public ClubbyOptions getOptions() {
+        return ClubbyOptions.createFrom(defaultOpts);
+    }
 }
 

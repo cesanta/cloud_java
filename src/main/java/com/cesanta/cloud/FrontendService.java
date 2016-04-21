@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.cesanta.clubby.lib.Clubby;
+import com.cesanta.clubby.lib.ClubbyOptions;
 import com.cesanta.clubby.lib.CmdListener;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class FrontendService {
 
     private final Clubby clubby;
+    private ClubbyOptions defaultOpts;
 
     public static FrontendService createInstance(Clubby clubby) {
         return new FrontendService(clubby);
@@ -28,10 +30,34 @@ public final class FrontendService {
 
     private FrontendService(Clubby clubby) {
         this.clubby = clubby;
+        this.defaultOpts = clubby.getOptions();
     }
 
 
     //-- BlobURL {{{
+
+    /**
+     * Returns an HTTP URL which points to the given blobstore key.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      FrontendService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void blobURL(
+            FrontendService.BlobURLArgs args,
+            CmdListener<String> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Frontend.BlobURL",
+                args,
+                listener,
+                String.class,
+                opts
+                );
+    }
 
     /**
      * Returns an HTTP URL which points to the given blobstore key.
@@ -40,12 +66,7 @@ public final class FrontendService {
             FrontendService.BlobURLArgs args,
             CmdListener<String> listener
             ) {
-        clubby.callBackend(
-                "/v1/Frontend.BlobURL",
-                args,
-                listener,
-                String.class
-                );
+        blobURL(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -83,5 +104,12 @@ public final class FrontendService {
     // }}}
 
 
+    public void setDefaultOptions(ClubbyOptions opts) {
+        this.defaultOpts = ClubbyOptions.createFrom(opts);
+    }
+
+    public ClubbyOptions getOptions() {
+        return ClubbyOptions.createFrom(defaultOpts);
+    }
 }
 

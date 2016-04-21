@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.cesanta.clubby.lib.Clubby;
+import com.cesanta.clubby.lib.ClubbyOptions;
 import com.cesanta.clubby.lib.CmdListener;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class AuthTokenService {
 
     private final Clubby clubby;
+    private ClubbyOptions defaultOpts;
 
     public static AuthTokenService createInstance(Clubby clubby) {
         return new AuthTokenService(clubby);
@@ -28,10 +30,34 @@ public final class AuthTokenService {
 
     private AuthTokenService(Clubby clubby) {
         this.clubby = clubby;
+        this.defaultOpts = clubby.getOptions();
     }
 
 
     //-- Generate {{{
+
+    /**
+     * Returns auth token for the given app.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AuthTokenService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void generate(
+            AuthTokenService.GenerateArgs args,
+            CmdListener<AuthTokenService.GenerateResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/AuthToken.Generate",
+                args,
+                listener,
+                AuthTokenService.GenerateResponse.class,
+                opts
+                );
+    }
 
     /**
      * Returns auth token for the given app.
@@ -40,12 +66,7 @@ public final class AuthTokenService {
             AuthTokenService.GenerateArgs args,
             CmdListener<AuthTokenService.GenerateResponse> listener
             ) {
-        clubby.callBackend(
-                "/v1/AuthToken.Generate",
-                args,
-                listener,
-                AuthTokenService.GenerateResponse.class
-                );
+        generate(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -96,17 +117,35 @@ public final class AuthTokenService {
 
     /**
      * Returns auth token for the given app.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AuthTokenService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void get(
             AuthTokenService.GetArgs args,
-            CmdListener<AuthTokenService.GetResponse> listener
+            CmdListener<AuthTokenService.GetResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/AuthToken.Get",
                 args,
                 listener,
-                AuthTokenService.GetResponse.class
+                AuthTokenService.GetResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Returns auth token for the given app.
+     */
+    public void get(
+            AuthTokenService.GetArgs args,
+            CmdListener<AuthTokenService.GetResponse> listener
+            ) {
+        get(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -167,17 +206,35 @@ public final class AuthTokenService {
 
     /**
      * Returns the list of apps for which tokens were generated.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AuthTokenService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void list(
             AuthTokenService.ListArgs args,
-            CmdListener<AuthTokenService.ListResponse> listener
+            CmdListener<AuthTokenService.ListResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/AuthToken.List",
                 args,
                 listener,
-                AuthTokenService.ListResponse.class
+                AuthTokenService.ListResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Returns the list of apps for which tokens were generated.
+     */
+    public void list(
+            AuthTokenService.ListArgs args,
+            CmdListener<AuthTokenService.ListResponse> listener
+            ) {
+        list(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -224,17 +281,35 @@ public final class AuthTokenService {
 
     /**
      * Revokes auth token for the given app.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AuthTokenService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
     public void revoke(
             AuthTokenService.RevokeArgs args,
-            CmdListener<AuthTokenService.RevokeResponse> listener
+            CmdListener<AuthTokenService.RevokeResponse> listener,
+            ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/AuthToken.Revoke",
                 args,
                 listener,
-                AuthTokenService.RevokeResponse.class
+                AuthTokenService.RevokeResponse.class,
+                opts
                 );
+    }
+
+    /**
+     * Revokes auth token for the given app.
+     */
+    public void revoke(
+            AuthTokenService.RevokeArgs args,
+            CmdListener<AuthTokenService.RevokeResponse> listener
+            ) {
+        revoke(args, listener, defaultOpts);
     }
 
     //-- args {{{
@@ -281,5 +356,12 @@ public final class AuthTokenService {
     // }}}
 
 
+    public void setDefaultOptions(ClubbyOptions opts) {
+        this.defaultOpts = ClubbyOptions.createFrom(opts);
+    }
+
+    public ClubbyOptions getOptions() {
+        return ClubbyOptions.createFrom(defaultOpts);
+    }
 }
 
