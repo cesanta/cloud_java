@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.cesanta</groupId>
   <artifactId>cloud-service-stubs</artifactId>
-  <version>0.0.2-SNAPSHOT</version>
+  <version>0.0.3-SNAPSHOT</version>
   <name>Cesanta Cloud API Facade</name>
   <description>Cesanta Cloud API Facade</description>
   <url>https://github.com/cesanta/cloud_java</url>
@@ -109,7 +109,7 @@
     <dependency>
       <groupId>com.cesanta</groupId>
       <artifactId>clubby</artifactId>
-      <version>0.0.2-SNAPSHOT</version>
+      <version>0.0.3-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>
