@@ -77,7 +77,7 @@ public final class FirmwareService {
     public static final class CreateArgs  {
 
         /**
-         * URL of the firmware metadata file. Must be accessible by the devices that will get this firmware.
+         * URL of the firmware metadata file. Must be accessible by the devices that will get this firmware. Must be present if zip is not present.
          */
         @JsonProperty("manifest")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -105,7 +105,7 @@ public final class FirmwareService {
         private String version;
 
         /**
-         * URL of the .zip archive suitable for flashing.
+         * URL of the .zip archive suitable for flashing. Must be present if manifest is not present. The zip contains the manifest.
          */
         @JsonProperty("zip")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -113,7 +113,7 @@ public final class FirmwareService {
 
 
         /**
-         * Set URL of the firmware metadata file. Must be accessible by the devices that will get this firmware.
+         * Set URL of the firmware metadata file. Must be accessible by the devices that will get this firmware. Must be present if zip is not present.
          */
         public CreateArgs manifest(String manifest) {
             this.manifest = manifest;
@@ -145,7 +145,7 @@ public final class FirmwareService {
         }
 
         /**
-         * Set URL of the .zip archive suitable for flashing.
+         * Set URL of the .zip archive suitable for flashing. Must be present if manifest is not present. The zip contains the manifest.
          */
         public CreateArgs zip(String zip) {
             this.zip = zip;
