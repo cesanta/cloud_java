@@ -84,6 +84,13 @@ public final class LogService {
         private String after;
 
         /**
+         * Whether this call will block until there are some logs to be returned.
+         */
+        @JsonProperty("follow")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private Boolean follow;
+
+        /**
          * Maximum number of entries to return.
          */
         @JsonProperty("limit")
@@ -110,6 +117,14 @@ public final class LogService {
          */
         public ListArgs after(String after) {
             this.after = after;
+            return this;
+        }
+
+        /**
+         * Set whether this call will block until there are some logs to be returned.
+         */
+        public ListArgs follow(boolean follow) {
+            this.follow = follow;
             return this;
         }
 
