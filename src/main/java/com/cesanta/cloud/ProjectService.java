@@ -37,7 +37,7 @@ public final class ProjectService {
     //-- AddDevice {{{
 
     /**
-     * Adds a new device to the project.
+     * Adds a new device.
      *
      * @param opts
      *      Options instance which will override current default options. If
@@ -60,7 +60,7 @@ public final class ProjectService {
     }
 
     /**
-     * Adds a new device to the project.
+     * Adds a new device.
      */
     public void addDevice(
             ProjectService.AddDeviceArgs args,
@@ -84,7 +84,7 @@ public final class ProjectService {
         private String deviceid;
 
         /**
-         * ID of the project.
+         * Optional ID of the project to add device to.
          */
         @JsonProperty("projectid")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -107,7 +107,7 @@ public final class ProjectService {
         }
 
         /**
-         * Set ID of the project.
+         * Set optional ID of the project to add device to.
          */
         public AddDeviceArgs projectid(String projectid) {
             this.projectid = projectid;
@@ -236,6 +236,114 @@ public final class ProjectService {
     // }}}
 
     //-- response {{{
+
+    // }}}
+
+    // }}}
+
+    //-- ClaimDevice {{{
+
+    /**
+     * Claim an unclaimed device using a token.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      ProjectService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void claimDevice(
+            ProjectService.ClaimDeviceArgs args,
+            CmdListener<ProjectService.ClaimDeviceResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Project.ClaimDevice",
+                args,
+                listener,
+                ProjectService.ClaimDeviceResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * Claim an unclaimed device using a token.
+     */
+    public void claimDevice(
+            ProjectService.ClaimDeviceArgs args,
+            CmdListener<ProjectService.ClaimDeviceResponse> listener
+            ) {
+        claimDevice(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.ProjectService#claimDevice claimDevice} method.
+     */
+    public static final class ClaimDeviceArgs  {
+
+        /**
+         * ID of the device.
+         */
+        @JsonProperty("deviceid")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String deviceid;
+
+        /**
+         * ID of the project.
+         */
+        @JsonProperty("projectid")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String projectid;
+
+        /**
+         * Auth token based on PSK.
+         */
+        @JsonProperty("token")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String token;
+
+
+        /**
+         * Set ID of the device.
+         */
+        public ClaimDeviceArgs deviceid(String deviceid) {
+            this.deviceid = deviceid;
+            return this;
+        }
+
+        /**
+         * Set ID of the project.
+         */
+        public ClaimDeviceArgs projectid(String projectid) {
+            this.projectid = projectid;
+            return this;
+        }
+
+        /**
+         * Set auth token based on PSK.
+         */
+        public ClaimDeviceArgs token(String token) {
+            this.token = token;
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    /**
+     * Response of the {@link com.cesanta.cloud.ProjectService#claimDevice claimDevice} method.
+     */
+    public static final class ClaimDeviceResponse  {
+
+
+    }
+
 
     // }}}
 
@@ -424,6 +532,102 @@ public final class ProjectService {
      * Response of the {@link com.cesanta.cloud.ProjectService#deleteDevice deleteDevice} method.
      */
     public static final class DeleteDeviceResponse  {
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
+    //-- GetDevice {{{
+
+    /**
+     * Gets device information.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      ProjectService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void getDevice(
+            ProjectService.GetDeviceArgs args,
+            CmdListener<ProjectService.GetDeviceResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Project.GetDevice",
+                args,
+                listener,
+                ProjectService.GetDeviceResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * Gets device information.
+     */
+    public void getDevice(
+            ProjectService.GetDeviceArgs args,
+            CmdListener<ProjectService.GetDeviceResponse> listener
+            ) {
+        getDevice(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.ProjectService#getDevice getDevice} method.
+     */
+    public static final class GetDeviceArgs  {
+
+        /**
+         * ID of the device.
+         */
+        @JsonProperty("deviceid")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String deviceid;
+
+
+        /**
+         * Set ID of the device.
+         */
+        public GetDeviceArgs deviceid(String deviceid) {
+            this.deviceid = deviceid;
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    public static final class GetDeviceResponse  {
+
+        /**
+         * ID of the device.
+         */
+        @JsonProperty("deviceid")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public String deviceid;
+
+        /**
+         * Optional ID of the project to add device to.
+         */
+        @JsonProperty("projectid")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public String projectid;
+
+        /**
+         * Pre-shared key that device will use for authentication.
+         */
+        @JsonProperty("psk")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public String psk;
 
 
     }
