@@ -448,6 +448,84 @@ public final class ProjectService {
 
     // }}}
 
+    //-- Delete {{{
+
+    /**
+     * Deletes a project
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      ProjectService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void delete(
+            ProjectService.DeleteArgs args,
+            CmdListener<ProjectService.DeleteResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Project.Delete",
+                args,
+                listener,
+                ProjectService.DeleteResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * Deletes a project
+     */
+    public void delete(
+            ProjectService.DeleteArgs args,
+            CmdListener<ProjectService.DeleteResponse> listener
+            ) {
+        delete(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.ProjectService#delete delete} method.
+     */
+    public static final class DeleteArgs  {
+
+        /**
+         * ID of the project to be deleted.
+         */
+        @JsonProperty("id")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String id;
+
+
+        /**
+         * Set ID of the project to be deleted.
+         */
+        public DeleteArgs id(String id) {
+            this.id = id;
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    /**
+     * Response of the {@link com.cesanta.cloud.ProjectService#delete delete} method.
+     */
+    public static final class DeleteResponse  {
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
     //-- DeleteDevice {{{
 
     /**
