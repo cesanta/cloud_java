@@ -619,6 +619,89 @@ public final class ProjectService {
 
     // }}}
 
+    //-- Get {{{
+
+    /**
+     * Returns project info for a given project
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      ProjectService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void get(
+            ProjectService.GetArgs args,
+            CmdListener<ProjectService.GetResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Project.Get",
+                args,
+                listener,
+                ProjectService.GetResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * Returns project info for a given project
+     */
+    public void get(
+            ProjectService.GetArgs args,
+            CmdListener<ProjectService.GetResponse> listener
+            ) {
+        get(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.ProjectService#get get} method.
+     */
+    public static final class GetArgs  {
+
+        /**
+         * ID of the project to be retreived
+         */
+        @JsonProperty("id")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String id;
+
+
+        /**
+         * Set ID of the project to be retreived
+         */
+        public GetArgs id(String id) {
+            this.id = id;
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    public static final class GetResponse  {
+
+        @JsonProperty("id")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public String id;
+
+        @JsonProperty("name")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public String name;
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
     //-- GetDevice {{{
 
     /**
