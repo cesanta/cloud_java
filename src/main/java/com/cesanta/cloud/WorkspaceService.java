@@ -222,7 +222,7 @@ public final class WorkspaceService {
     //-- Download {{{
 
     /**
-     * Pack the workspace in a zip and provide the raw bytes
+     * Pack the workspace (or a workspace subdirectory) in a zip and provide the raw bytes
      *
      * @param opts
      *      Options instance which will override current default options. If
@@ -245,7 +245,7 @@ public final class WorkspaceService {
     }
 
     /**
-     * Pack the workspace in a zip and provide the raw bytes
+     * Pack the workspace (or a workspace subdirectory) in a zip and provide the raw bytes
      */
     public void download(
             WorkspaceService.DownloadArgs args,
