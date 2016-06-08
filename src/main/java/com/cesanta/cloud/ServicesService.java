@@ -51,7 +51,7 @@ public final class ServicesService {
             ClubbyOptions opts
             ) {
         clubby.callBackend(
-                "/v1/Services.Get",
+                "/v1/Services.List",
                 args,
                 listener,
                 ServicesService.GetResponse.class,
