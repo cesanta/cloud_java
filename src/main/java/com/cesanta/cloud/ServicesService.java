@@ -34,7 +34,7 @@ public final class ServicesService {
     }
 
 
-    //-- Get {{{
+    //-- List {{{
 
     /**
      * Get returns definitions of all services provided by the server.
@@ -45,16 +45,16 @@ public final class ServicesService {
      *      ServicesService#getOptions() getOptions()} to get current defaults, and then
      *      modify received options object in some way.
      */
-    public void get(
-            ServicesService.GetArgs args,
-            CmdListener<ServicesService.GetResponse> listener,
+    public void list(
+            ServicesService.ListArgs args,
+            CmdListener<ServicesService.ListResponse> listener,
             ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Services.List",
                 args,
                 listener,
-                ServicesService.GetResponse.class,
+                ServicesService.ListResponse.class,
                 opts
                 );
     }
@@ -62,19 +62,19 @@ public final class ServicesService {
     /**
      * Get returns definitions of all services provided by the server.
      */
-    public void get(
-            ServicesService.GetArgs args,
-            CmdListener<ServicesService.GetResponse> listener
+    public void list(
+            ServicesService.ListArgs args,
+            CmdListener<ServicesService.ListResponse> listener
             ) {
-        get(args, listener, defaultOpts);
+        list(args, listener, defaultOpts);
     }
 
     //-- args {{{
 
     /**
-     * Arguments for the {@link com.cesanta.cloud.ServicesService#get get} method.
+     * Arguments for the {@link com.cesanta.cloud.ServicesService#list list} method.
      */
-    public static final class GetArgs  {
+    public static final class ListArgs  {
 
 
     }
@@ -85,9 +85,9 @@ public final class ServicesService {
     //-- response {{{
 
     /**
-     * Response of the {@link com.cesanta.cloud.ServicesService#get get} method.
+     * Response of the {@link com.cesanta.cloud.ServicesService#list list} method.
      */
-    public static final class GetResponse extends HashMap<String, Object> {
+    public static final class ListResponse extends HashMap<String, Object> {
 
         static final long serialVersionUID = 1;
 

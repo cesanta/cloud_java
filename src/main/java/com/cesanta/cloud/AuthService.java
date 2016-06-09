@@ -247,6 +247,327 @@ public final class AuthService {
 
     // }}}
 
+    //-- GenerateToken {{{
+
+    /**
+     * Returns auth token for the given app.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AuthService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void generateToken(
+            AuthService.GenerateTokenArgs args,
+            CmdListener<AuthService.GenerateTokenResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Auth.GenerateToken",
+                args,
+                listener,
+                AuthService.GenerateTokenResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * Returns auth token for the given app.
+     */
+    public void generateToken(
+            AuthService.GenerateTokenArgs args,
+            CmdListener<AuthService.GenerateTokenResponse> listener
+            ) {
+        generateToken(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.AuthService#generateToken generateToken} method.
+     */
+    public static final class GenerateTokenArgs  {
+
+        /**
+         * Hostname of the app.
+         */
+        @JsonProperty("host")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String host;
+
+
+        /**
+         * Set hostname of the app.
+         */
+        public GenerateTokenArgs host(String host) {
+            this.host = host;
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    public static final class GenerateTokenResponse  {
+
+        @JsonProperty("token")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public String token;
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
+    //-- GetToken {{{
+
+    /**
+     * Returns auth token for the given app.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AuthService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void getToken(
+            AuthService.GetTokenArgs args,
+            CmdListener<AuthService.GetTokenResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Auth.GetToken",
+                args,
+                listener,
+                AuthService.GetTokenResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * Returns auth token for the given app.
+     */
+    public void getToken(
+            AuthService.GetTokenArgs args,
+            CmdListener<AuthService.GetTokenResponse> listener
+            ) {
+        getToken(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.AuthService#getToken getToken} method.
+     */
+    public static final class GetTokenArgs  {
+
+        /**
+         * Hostname of the app.
+         */
+        @JsonProperty("host")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String host;
+
+
+        /**
+         * Set hostname of the app.
+         */
+        public GetTokenArgs host(String host) {
+            this.host = host;
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    public static final class GetTokenResponse  {
+
+        /**
+         * `true` if token for the app was generated previously.
+         */
+        @JsonProperty("exist")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public Boolean exist;
+
+        /**
+         * Token value. Not present if `exist` is `false`.
+         */
+        @JsonProperty("token")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public String token;
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
+    //-- ListToken {{{
+
+    /**
+     * Returns the list of apps for which tokens were generated.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AuthService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void listToken(
+            AuthService.ListTokenArgs args,
+            CmdListener<AuthService.ListTokenResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Auth.ListToken",
+                args,
+                listener,
+                AuthService.ListTokenResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * Returns the list of apps for which tokens were generated.
+     */
+    public void listToken(
+            AuthService.ListTokenArgs args,
+            CmdListener<AuthService.ListTokenResponse> listener
+            ) {
+        listToken(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.AuthService#listToken listToken} method.
+     */
+    public static final class ListTokenArgs  {
+
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    /**
+     * Response of the {@link com.cesanta.cloud.AuthService#listToken listToken} method.
+     */
+    public static final class ListTokenResponse extends ArrayList<ListTokenResponseItem> {
+
+        static final long serialVersionUID = 1;
+
+
+    }
+
+
+    public static final class ListTokenResponseItem  {
+
+        @JsonProperty("host")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public String host;
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
+    //-- RevokeToken {{{
+
+    /**
+     * Revokes auth token for the given app.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AuthService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void revokeToken(
+            AuthService.RevokeTokenArgs args,
+            CmdListener<AuthService.RevokeTokenResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Auth.RevokeToken",
+                args,
+                listener,
+                AuthService.RevokeTokenResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * Revokes auth token for the given app.
+     */
+    public void revokeToken(
+            AuthService.RevokeTokenArgs args,
+            CmdListener<AuthService.RevokeTokenResponse> listener
+            ) {
+        revokeToken(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.AuthService#revokeToken revokeToken} method.
+     */
+    public static final class RevokeTokenArgs  {
+
+        /**
+         * Hostname of the app.
+         */
+        @JsonProperty("host")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String host;
+
+
+        /**
+         * Set hostname of the app.
+         */
+        public RevokeTokenArgs host(String host) {
+            this.host = host;
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    /**
+     * Response of the {@link com.cesanta.cloud.AuthService#revokeToken revokeToken} method.
+     */
+    public static final class RevokeTokenResponse  {
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
 
     public void setDefaultOptions(ClubbyOptions opts) {
         this.defaultOpts = ClubbyOptions.createFrom(opts);
