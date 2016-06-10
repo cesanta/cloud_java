@@ -146,10 +146,135 @@ public final class TimeseriesService {
 
     // }}}
 
+    //-- Report {{{
+
+    /**
+     * Report adds new value to the storage. Label 'src' is implicitly added.
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      TimeseriesService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void report(
+            TimeseriesService.ReportArgs args,
+            CmdListener<TimeseriesService.ReportResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Timeseries.Report",
+                args,
+                listener,
+                TimeseriesService.ReportResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * Report adds new value to the storage. Label 'src' is implicitly added.
+     */
+    public void report(
+            TimeseriesService.ReportArgs args,
+            CmdListener<TimeseriesService.ReportResponse> listener
+            ) {
+        report(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.TimeseriesService#report report} method.
+     */
+    public static final class ReportArgs  {
+
+        /**
+         * Label set.
+         */
+        @JsonProperty("labels")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private ReportArgsLabel labels;
+
+        /**
+         * Timestamp.
+         */
+        @JsonProperty("timestamp")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private Long timestamp;
+
+        /**
+         * Value.
+         */
+        @JsonProperty("value")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private Double value;
+
+
+        /**
+         * Add an item to the label set.
+         */
+        public ReportArgs label(String key, String label) {
+            this.labels.put(key, label);
+            return this;
+        }
+
+        /**
+         * Set timestamp.
+         */
+        public ReportArgs timestamp(long timestamp) {
+            this.timestamp = timestamp;
+            return this;
+        }
+
+        /**
+         * Set value.
+         */
+        public ReportArgs value(double value) {
+            this.value = value;
+            return this;
+        }
+
+    }
+
+
+    public static final class ReportArgsLabel extends HashMap<String, String> {
+
+        static final long serialVersionUID = 1;
+
+
+        public  ReportArgsLabel(String __name__) {
+            this.put("__name__", __name__);
+        }
+
+        public ReportArgsLabel add(String key, String value) {
+            super.put(key, value);
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    /**
+     * Response of the {@link com.cesanta.cloud.TimeseriesService#report report} method.
+     */
+    public static final class ReportResponse  {
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
     //-- ReportMany {{{
 
     /**
-     * Publish adds new values to the storage. Label 'src' is implicitly added to each timeseries.
+     * ReportMany adds new values to the storage. Label 'src' is implicitly added to each timeseries.
      *
      * @param opts
      *      Options instance which will override current default options. If
@@ -172,7 +297,7 @@ public final class TimeseriesService {
     }
 
     /**
-     * Publish adds new values to the storage. Label 'src' is implicitly added to each timeseries.
+     * ReportMany adds new values to the storage. Label 'src' is implicitly added to each timeseries.
      */
     public void reportMany(
             TimeseriesService.ReportManyArgs args,
