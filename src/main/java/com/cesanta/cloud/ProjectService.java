@@ -183,7 +183,7 @@ public final class ProjectService {
         private String id;
 
         /**
-         * Human-readable name for the project.
+         * Unique name. The format is owner/project-name, only alphanumerical characters, dashes and underscores are allowed Will be prefixed with the owner account name. If the owner prefix is present, this method will check whether it matches the one specified via the owner argument.
          */
         @JsonProperty("name")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -196,6 +196,13 @@ public final class ProjectService {
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         private String owner;
 
+        /**
+         * Human-readable name for the project.
+         */
+        @JsonProperty("summary")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String summary;
+
 
         /**
          * Set ID of a project. Assigned automatically if not specified.
@@ -206,7 +213,7 @@ public final class ProjectService {
         }
 
         /**
-         * Set human-readable name for the project.
+         * Set unique name. The format is owner/project-name, only alphanumerical characters, dashes and underscores are allowed Will be prefixed with the owner account name. If the owner prefix is present, this method will check whether it matches the one specified via the owner argument.
          */
         public CreateArgs name(String name) {
             this.name = name;
@@ -218,6 +225,14 @@ public final class ProjectService {
          */
         public CreateArgs owner(String owner) {
             this.owner = owner;
+            return this;
+        }
+
+        /**
+         * Set human-readable name for the project.
+         */
+        public CreateArgs summary(String summary) {
+            this.summary = summary;
             return this;
         }
 
@@ -568,9 +583,19 @@ public final class ProjectService {
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         public String id;
 
+        /**
+         * Unique machine friendly but human readable name, like a github repository name. The name is prefixed by the owner account name (user or organization).
+         */
         @JsonProperty("name")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         public String name;
+
+        /**
+         * descriptive short name
+         */
+        @JsonProperty("summary")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public String summary;
 
 
     }
