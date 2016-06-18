@@ -77,7 +77,7 @@ public final class AppService {
     public static final class DeployArgs  {
 
         /**
-         * App-kind specific deployment attributes.
+         * App-type specific deployment attributes.
          */
         @JsonProperty("attrs")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -103,7 +103,7 @@ public final class AppService {
 
 
         /**
-         * Add an item to the app-kind specific deployment attributes.
+         * Add an item to the app-type specific deployment attributes.
          */
         public DeployArgs attr(String key, String attr) {
             this.attrs.put(key, attr);
