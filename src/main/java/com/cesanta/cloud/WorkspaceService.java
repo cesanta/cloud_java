@@ -84,11 +84,11 @@ public final class WorkspaceService {
         private String id;
 
         /**
-         * ID of the project
+         * Project name
          */
-        @JsonProperty("projectid")
+        @JsonProperty("project")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        private String projectid;
+        private String project;
 
         /**
          * optional skeleton template
@@ -107,10 +107,10 @@ public final class WorkspaceService {
         }
 
         /**
-         * Set ID of the project
+         * Set project name
          */
-        public CreateArgs projectid(String projectid) {
-            this.projectid = projectid;
+        public CreateArgs project(String project) {
+            this.project = project;
             return this;
         }
 
