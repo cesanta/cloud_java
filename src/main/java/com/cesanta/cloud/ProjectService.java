@@ -558,6 +558,39 @@ public final class ProjectService {
      */
     public static final class ListArgs  {
 
+        @JsonProperty("filter")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private ListArgsFilter filter = new ListArgsFilter();
+
+
+        /**
+         * Set filter
+         */
+        public ListArgs filter(ListArgsFilter filter) {
+            this.filter = filter;
+            return this;
+        }
+
+    }
+
+
+    public static final class ListArgsFilter  {
+
+        /**
+         * If set to true, all publicly-accessible projects will be returned
+         */
+        @JsonProperty("public")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private Boolean public_;
+
+
+        /**
+         * Set if set to true, all publicly-accessible projects will be returned
+         */
+        public ListArgsFilter public_(boolean public_) {
+            this.public_ = public_;
+            return this;
+        }
 
     }
 
