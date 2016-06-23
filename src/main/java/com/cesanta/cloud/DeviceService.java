@@ -84,11 +84,11 @@ public final class DeviceService {
         private String deviceid;
 
         /**
-         * Optional ID of the project to add device to.
+         * Optional name of the account to add device to.
          */
-        @JsonProperty("projectid")
+        @JsonProperty("owner")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        private String projectid;
+        private String owner;
 
         /**
          * Pre-shared key that device will use for authentication.
@@ -107,10 +107,10 @@ public final class DeviceService {
         }
 
         /**
-         * Set optional ID of the project to add device to.
+         * Set optional name of the account to add device to.
          */
-        public AddArgs projectid(String projectid) {
-            this.projectid = projectid;
+        public AddArgs owner(String owner) {
+            this.owner = owner;
             return this;
         }
 
@@ -192,11 +192,11 @@ public final class DeviceService {
         private String deviceid;
 
         /**
-         * ID of the project.
+         * Name of the account that will own the device. Defaults to the identity of the caller
          */
-        @JsonProperty("projectid")
+        @JsonProperty("owner")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        private String projectid;
+        private String owner;
 
         /**
          * Auth token based on PSK.
@@ -215,10 +215,10 @@ public final class DeviceService {
         }
 
         /**
-         * Set ID of the project.
+         * Set name of the account that will own the device. Defaults to the identity of the caller
          */
-        public ClaimArgs projectid(String projectid) {
-            this.projectid = projectid;
+        public ClaimArgs owner(String owner) {
+            this.owner = owner;
             return this;
         }
 
@@ -253,7 +253,7 @@ public final class DeviceService {
     //-- Delete {{{
 
     /**
-     * Removes the devices from the project.
+     * Unregisters the device
      *
      * @param opts
      *      Options instance which will override current default options. If
@@ -276,7 +276,7 @@ public final class DeviceService {
     }
 
     /**
-     * Removes the devices from the project.
+     * Unregisters the device
      */
     public void delete(
             DeviceService.DeleteArgs args,
@@ -299,27 +299,12 @@ public final class DeviceService {
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         private String deviceid;
 
-        /**
-         * ID of the project.
-         */
-        @JsonProperty("projectid")
-        @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        private String projectid;
-
 
         /**
          * Set ID of the device.
          */
         public DeleteArgs deviceid(String deviceid) {
             this.deviceid = deviceid;
-            return this;
-        }
-
-        /**
-         * Set ID of the project.
-         */
-        public DeleteArgs projectid(String projectid) {
-            this.projectid = projectid;
             return this;
         }
 
@@ -418,11 +403,11 @@ public final class DeviceService {
         public String deviceid;
 
         /**
-         * Optional ID of the project to add device to.
+         * Optional name of the account owning the device
          */
-        @JsonProperty("projectid")
+        @JsonProperty("owner")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        public String projectid;
+        public String owner;
 
         /**
          * Pre-shared key that device will use for authentication.
@@ -442,7 +427,7 @@ public final class DeviceService {
     //-- List {{{
 
     /**
-     * Returns a list of devices in a given project.
+     * Returns the list of owned devices
      *
      * @param opts
      *      Options instance which will override current default options. If
@@ -465,7 +450,7 @@ public final class DeviceService {
     }
 
     /**
-     * Returns a list of devices in a given project.
+     * Returns the list of owned devices
      */
     public void list(
             DeviceService.ListArgs args,
@@ -482,33 +467,33 @@ public final class DeviceService {
     public static final class ListArgs  {
 
         /**
+         * name of account
+         */
+        @JsonProperty("account")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String account;
+
+        /**
          * Filter expression, currently only 'labelname=labelvalue' supported.
          */
         @JsonProperty("filter")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         private String filter;
 
-        /**
-         * ID of the project.
-         */
-        @JsonProperty("projectid")
-        @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        private String projectid;
 
+        /**
+         * Set name of account
+         */
+        public ListArgs account(String account) {
+            this.account = account;
+            return this;
+        }
 
         /**
          * Set filter expression, currently only 'labelname=labelvalue' supported.
          */
         public ListArgs filter(String filter) {
             this.filter = filter;
-            return this;
-        }
-
-        /**
-         * Set ID of the project.
-         */
-        public ListArgs projectid(String projectid) {
-            this.projectid = projectid;
             return this;
         }
 
