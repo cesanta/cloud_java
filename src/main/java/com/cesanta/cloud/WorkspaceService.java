@@ -76,6 +76,10 @@ public final class WorkspaceService {
      */
     public static final class CreateArgs  {
 
+        @JsonProperty("cloneFrom")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private CreateArgsCloneFrom cloneFrom = new CreateArgsCloneFrom();
+
         /**
          * Optional ID of the workspace. Must be unique within a project. Useful to create well known workspaces.
          */
@@ -99,6 +103,14 @@ public final class WorkspaceService {
 
 
         /**
+         * Set cloneFrom
+         */
+        public CreateArgs cloneFrom(CreateArgsCloneFrom cloneFrom) {
+            this.cloneFrom = cloneFrom;
+            return this;
+        }
+
+        /**
          * Set optional ID of the workspace. Must be unique within a project. Useful to create well known workspaces.
          */
         public CreateArgs id(String id) {
@@ -119,6 +131,42 @@ public final class WorkspaceService {
          */
         public CreateArgs template(String template) {
             this.template = template;
+            return this;
+        }
+
+    }
+
+
+    public static final class CreateArgsCloneFrom  {
+
+        /**
+         * ID of the workspace in the source project to clone
+         */
+        @JsonProperty("id")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String id;
+
+        /**
+         * Project name
+         */
+        @JsonProperty("project")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String project;
+
+
+        /**
+         * Set ID of the workspace in the source project to clone
+         */
+        public CreateArgsCloneFrom id(String id) {
+            this.id = id;
+            return this;
+        }
+
+        /**
+         * Set project name
+         */
+        public CreateArgsCloneFrom project(String project) {
+            this.project = project;
             return this;
         }
 

@@ -176,6 +176,13 @@ public final class ProjectService {
     public static final class CreateArgs  {
 
         /**
+         * Unique name of the project to clone from, in a format "owner/project-name".
+         */
+        @JsonProperty("cloneFrom")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String cloneFrom;
+
+        /**
          * Unique name. The format is owner/project-name, only alphanumerical characters, dashes and underscores are allowed Will be prefixed with the owner account name. If the owner prefix is present, this method will check whether it matches the one specified via the owner argument.
          */
         @JsonProperty("name")
@@ -196,6 +203,14 @@ public final class ProjectService {
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         private String summary;
 
+
+        /**
+         * Set unique name of the project to clone from, in a format "owner/project-name".
+         */
+        public CreateArgs cloneFrom(String cloneFrom) {
+            this.cloneFrom = cloneFrom;
+            return this;
+        }
 
         /**
          * Set unique name. The format is owner/project-name, only alphanumerical characters, dashes and underscores are allowed Will be prefixed with the owner account name. If the owner prefix is present, this method will check whether it matches the one specified via the owner argument.
