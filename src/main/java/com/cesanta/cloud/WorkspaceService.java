@@ -415,18 +415,18 @@ public final class WorkspaceService {
     public static final class ListArgsFilter  {
 
         /**
-         * List only builds matching workspaces belonging to a given project. Regardless of this filter, the result will only contain workspaces visible to the caller.
+         * List only builds matching workspaces belonging to a given project name. Regardless of this filter, the result will only contain workspaces visible to the caller.
          */
-        @JsonProperty("projectid")
+        @JsonProperty("project")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        private String projectid;
+        private String project;
 
 
         /**
-         * Set list only builds matching workspaces belonging to a given project. Regardless of this filter, the result will only contain workspaces visible to the caller.
+         * Set list only builds matching workspaces belonging to a given project name. Regardless of this filter, the result will only contain workspaces visible to the caller.
          */
-        public ListArgsFilter projectid(String projectid) {
-            this.projectid = projectid;
+        public ListArgsFilter project(String project) {
+            this.project = project;
             return this;
         }
 
