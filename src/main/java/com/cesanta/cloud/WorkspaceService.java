@@ -37,7 +37,7 @@ public final class WorkspaceService {
     //-- Create {{{
 
     /**
-     * Create new workspace filled with a skeleton project.
+     * Create new workspace filled with a skeleton project, or cloned from existing workspace
      *
      * @param opts
      *      Options instance which will override current default options. If
@@ -60,7 +60,7 @@ public final class WorkspaceService {
     }
 
     /**
-     * Create new workspace filled with a skeleton project.
+     * Create new workspace filled with a skeleton project, or cloned from existing workspace
      */
     public void create(
             WorkspaceService.CreateArgs args,
@@ -76,6 +76,9 @@ public final class WorkspaceService {
      */
     public static final class CreateArgs  {
 
+        /**
+         * Optionally, description of the workspace to clone from
+         */
         @JsonProperty("cloneFrom")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         private CreateArgsCloneFrom cloneFrom = new CreateArgsCloneFrom();
@@ -103,7 +106,7 @@ public final class WorkspaceService {
 
 
         /**
-         * Set cloneFrom
+         * Set optionally, description of the workspace to clone from
          */
         public CreateArgs cloneFrom(CreateArgsCloneFrom cloneFrom) {
             this.cloneFrom = cloneFrom;
@@ -147,7 +150,7 @@ public final class WorkspaceService {
         private String id;
 
         /**
-         * Project name
+         * Name of the project to clone workspace from
          */
         @JsonProperty("project")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -163,7 +166,7 @@ public final class WorkspaceService {
         }
 
         /**
-         * Set project name
+         * Set name of the project to clone workspace from
          */
         public CreateArgsCloneFrom project(String project) {
             this.project = project;
@@ -234,16 +237,34 @@ public final class WorkspaceService {
      */
     public static final class DeleteArgs  {
 
-        @JsonProperty("path")
+        /**
+         * ID of the workspace in the source project to delete
+         */
+        @JsonProperty("id")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        private List<String> path = new ArrayList<String>();
+        private String id;
+
+        /**
+         * Project name to delete the workspace from
+         */
+        @JsonProperty("project")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String project;
 
 
         /**
-         * Add an item to the path
+         * Set ID of the workspace in the source project to delete
          */
-        public DeleteArgs path(String path) {
-            this.path.add(path);
+        public DeleteArgs id(String id) {
+            this.id = id;
+            return this;
+        }
+
+        /**
+         * Set project name to delete the workspace from
+         */
+        public DeleteArgs project(String project) {
+            this.project = project;
             return this;
         }
 
