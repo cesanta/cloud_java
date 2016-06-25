@@ -34,6 +34,75 @@ public final class AccountService {
     }
 
 
+    //-- CreateToken {{{
+
+    /**
+     * Generate a personal access token that can be passed in GET parameters instead user/psk pair
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AccountService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void createToken(
+            AccountService.CreateTokenArgs args,
+            CmdListener<String> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Account.CreateToken",
+                args,
+                listener,
+                String.class,
+                opts
+                );
+    }
+
+    /**
+     * Generate a personal access token that can be passed in GET parameters instead user/psk pair
+     */
+    public void createToken(
+            AccountService.CreateTokenArgs args,
+            CmdListener<String> listener
+            ) {
+        createToken(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.AccountService#createToken createToken} method.
+     */
+    public static final class CreateTokenArgs  {
+
+        /**
+         * displayed when listing the tokens
+         */
+        @JsonProperty("description")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String description;
+
+
+        /**
+         * Set displayed when listing the tokens
+         */
+        public CreateTokenArgs description(String description) {
+            this.description = description;
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    // }}}
+
+    // }}}
+
     //-- CreateUser {{{
 
     /**
@@ -231,6 +300,236 @@ public final class AccountService {
         @JsonProperty("name")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         public String name;
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
+    //-- ListTokens {{{
+
+    /**
+     * List tokens
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AccountService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void listTokens(
+            AccountService.ListTokensArgs args,
+            CmdListener<AccountService.ListTokensResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Account.ListTokens",
+                args,
+                listener,
+                AccountService.ListTokensResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * List tokens
+     */
+    public void listTokens(
+            AccountService.ListTokensArgs args,
+            CmdListener<AccountService.ListTokensResponse> listener
+            ) {
+        listTokens(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.AccountService#listTokens listTokens} method.
+     */
+    public static final class ListTokensArgs  {
+
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    /**
+     * Response of the {@link com.cesanta.cloud.AccountService#listTokens listTokens} method.
+     */
+    public static final class ListTokensResponse extends ArrayList<ListTokensResponseItem> {
+
+        static final long serialVersionUID = 1;
+
+
+    }
+
+
+    public static final class ListTokensResponseItem  {
+
+        @JsonProperty("description")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public String description;
+
+        @JsonProperty("id")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public String id;
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
+    //-- RevokeToken {{{
+
+    /**
+     * Delete the token
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AccountService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void revokeToken(
+            AccountService.RevokeTokenArgs args,
+            CmdListener<AccountService.RevokeTokenResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Account.RevokeToken",
+                args,
+                listener,
+                AccountService.RevokeTokenResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * Delete the token
+     */
+    public void revokeToken(
+            AccountService.RevokeTokenArgs args,
+            CmdListener<AccountService.RevokeTokenResponse> listener
+            ) {
+        revokeToken(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.AccountService#revokeToken revokeToken} method.
+     */
+    public static final class RevokeTokenArgs  {
+
+        @JsonProperty("token")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String token;
+
+
+        /**
+         * Set token
+         */
+        public RevokeTokenArgs token(String token) {
+            this.token = token;
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    /**
+     * Response of the {@link com.cesanta.cloud.AccountService#revokeToken revokeToken} method.
+     */
+    public static final class RevokeTokenResponse  {
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
+    //-- ValidateToken {{{
+
+    /**
+     * validates a token and returns the user ID associated with it
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AccountService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void validateToken(
+            AccountService.ValidateTokenArgs args,
+            CmdListener<AccountService.ValidateTokenResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Account.ValidateToken",
+                args,
+                listener,
+                AccountService.ValidateTokenResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * validates a token and returns the user ID associated with it
+     */
+    public void validateToken(
+            AccountService.ValidateTokenArgs args,
+            CmdListener<AccountService.ValidateTokenResponse> listener
+            ) {
+        validateToken(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.AccountService#validateToken validateToken} method.
+     */
+    public static final class ValidateTokenArgs  {
+
+        @JsonProperty("token")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String token;
+
+
+        /**
+         * Set token
+         */
+        public ValidateTokenArgs token(String token) {
+            this.token = token;
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    public static final class ValidateTokenResponse  {
+
+        @JsonProperty("account")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public String account;
 
 
     }
