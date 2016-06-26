@@ -229,7 +229,7 @@ public final class AccountService {
     //-- GetInfo {{{
 
     /**
-     * Retrieves info about an existing user.
+     * Retrieves info about an existing user. If id is present, info is fetched by id. Otherwise, if name is present, info is fetched by name. Otherwise, it's an error.
      *
      * @param opts
      *      Options instance which will override current default options. If
@@ -252,7 +252,7 @@ public final class AccountService {
     }
 
     /**
-     * Retrieves info about an existing user.
+     * Retrieves info about an existing user. If id is present, info is fetched by id. Otherwise, if name is present, info is fetched by name. Otherwise, it's an error.
      */
     public void getInfo(
             AccountService.GetInfoArgs args,
@@ -275,12 +275,27 @@ public final class AccountService {
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         private String id;
 
+        /**
+         * Name of the user.
+         */
+        @JsonProperty("name")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String name;
+
 
         /**
          * Set ID of the user.
          */
         public GetInfoArgs id(String id) {
             this.id = id;
+            return this;
+        }
+
+        /**
+         * Set name of the user.
+         */
+        public GetInfoArgs name(String name) {
+            this.name = name;
             return this;
         }
 
@@ -454,6 +469,100 @@ public final class AccountService {
      * Response of the {@link com.cesanta.cloud.AccountService#revokeToken revokeToken} method.
      */
     public static final class RevokeTokenResponse  {
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
+    //-- UserExists {{{
+
+    /**
+     * Returns whether the user exists
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AccountService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void userExists(
+            AccountService.UserExistsArgs args,
+            CmdListener<AccountService.UserExistsResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Account.UserExists",
+                args,
+                listener,
+                AccountService.UserExistsResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * Returns whether the user exists
+     */
+    public void userExists(
+            AccountService.UserExistsArgs args,
+            CmdListener<AccountService.UserExistsResponse> listener
+            ) {
+        userExists(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.AccountService#userExists userExists} method.
+     */
+    public static final class UserExistsArgs  {
+
+        /**
+         * ID of the user.
+         */
+        @JsonProperty("id")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String id;
+
+        /**
+         * Name of the user.
+         */
+        @JsonProperty("name")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String name;
+
+
+        /**
+         * Set ID of the user.
+         */
+        public UserExistsArgs id(String id) {
+            this.id = id;
+            return this;
+        }
+
+        /**
+         * Set name of the user.
+         */
+        public UserExistsArgs name(String name) {
+            this.name = name;
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    public static final class UserExistsResponse  {
+
+        @JsonProperty("exists")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public Boolean exists;
 
 
     }

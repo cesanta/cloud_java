@@ -203,6 +203,13 @@ public final class ProjectService {
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         private String summary;
 
+        /**
+         * Optional skeleton template
+         */
+        @JsonProperty("template")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String template;
+
 
         /**
          * Set unique name of the project to clone from, in a format "owner/project-name".
@@ -233,6 +240,14 @@ public final class ProjectService {
          */
         public CreateArgs summary(String summary) {
             this.summary = summary;
+            return this;
+        }
+
+        /**
+         * Set optional skeleton template
+         */
+        public CreateArgs template(String template) {
+            this.template = template;
             return this;
         }
 
@@ -328,7 +343,7 @@ public final class ProjectService {
     //-- Get {{{
 
     /**
-     * Returns project info for a given project
+     * Returns project info for a given project. If id is given, it is used. Otherwise, name is used. Otherwise, it's an error.
      *
      * @param opts
      *      Options instance which will override current default options. If
@@ -351,7 +366,7 @@ public final class ProjectService {
     }
 
     /**
-     * Returns project info for a given project
+     * Returns project info for a given project. If id is given, it is used. Otherwise, name is used. Otherwise, it's an error.
      */
     public void get(
             ProjectService.GetArgs args,
@@ -374,12 +389,27 @@ public final class ProjectService {
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         private String id;
 
+        /**
+         * Name of the project to be retreived
+         */
+        @JsonProperty("name")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String name;
+
 
         /**
          * Set ID of the project to be retreived
          */
         public GetArgs id(String id) {
             this.id = id;
+            return this;
+        }
+
+        /**
+         * Set name of the project to be retreived
+         */
+        public GetArgs name(String name) {
+            this.name = name;
             return this;
         }
 

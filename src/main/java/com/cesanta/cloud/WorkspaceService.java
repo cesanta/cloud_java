@@ -91,6 +91,13 @@ public final class WorkspaceService {
         private String id;
 
         /**
+         * If set to true, the existing workspace (if any) will be overwritten. Otherwise, an error will be returned if the workspace already exists.
+         */
+        @JsonProperty("overwrite")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private Boolean overwrite;
+
+        /**
          * Project name
          */
         @JsonProperty("project")
@@ -118,6 +125,14 @@ public final class WorkspaceService {
          */
         public CreateArgs id(String id) {
             this.id = id;
+            return this;
+        }
+
+        /**
+         * Set if set to true, the existing workspace (if any) will be overwritten. Otherwise, an error will be returned if the workspace already exists.
+         */
+        public CreateArgs overwrite(boolean overwrite) {
+            this.overwrite = overwrite;
             return this;
         }
 
