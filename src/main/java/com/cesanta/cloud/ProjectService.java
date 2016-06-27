@@ -422,6 +422,10 @@ public final class ProjectService {
 
     public static final class GetResponse  {
 
+        @JsonProperty("forksCount")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public Double forksCount;
+
         @JsonProperty("id")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         public String id;
@@ -641,6 +645,13 @@ public final class ProjectService {
 
 
     public static final class ListResponseItem  {
+
+        /**
+         * Number of forks of this project
+         */
+        @JsonProperty("forksCount")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public Double forksCount;
 
         @JsonProperty("id")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
