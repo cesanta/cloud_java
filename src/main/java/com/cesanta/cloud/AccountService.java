@@ -395,6 +395,10 @@ public final class AccountService {
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         public String id;
 
+        @JsonProperty("token")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public String token;
+
 
     }
 
