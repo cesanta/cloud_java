@@ -445,16 +445,16 @@ public final class AccountService {
      */
     public static final class RevokeTokenArgs  {
 
-        @JsonProperty("token")
+        @JsonProperty("id")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        private String token;
+        private String id;
 
 
         /**
-         * Set token
+         * Set id
          */
-        public RevokeTokenArgs token(String token) {
-            this.token = token;
+        public RevokeTokenArgs id(String id) {
+            this.id = id;
             return this;
         }
 
