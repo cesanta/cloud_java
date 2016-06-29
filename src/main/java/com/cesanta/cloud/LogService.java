@@ -34,6 +34,99 @@ public final class LogService {
     }
 
 
+    //-- Delete {{{
+
+    /**
+     * Delete all logs in the given stream
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      LogService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void delete(
+            LogService.DeleteArgs args,
+            CmdListener<LogService.DeleteResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Log.Delete",
+                args,
+                listener,
+                LogService.DeleteResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * Delete all logs in the given stream
+     */
+    public void delete(
+            LogService.DeleteArgs args,
+            CmdListener<LogService.DeleteResponse> listener
+            ) {
+        delete(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.LogService#delete delete} method.
+     */
+    public static final class DeleteArgs  {
+
+        /**
+         * Override src id. Used to delete logs on behalf of another source, if permitted.
+         */
+        @JsonProperty("src")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String src;
+
+        /**
+         * Log stream name. Defaults to `"console"`.
+         */
+        @JsonProperty("stream")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String stream;
+
+
+        /**
+         * Set override src id. Used to delete logs on behalf of another source, if permitted.
+         */
+        public DeleteArgs src(String src) {
+            this.src = src;
+            return this;
+        }
+
+        /**
+         * Set log stream name. Defaults to `"console"`.
+         */
+        public DeleteArgs stream(String stream) {
+            this.stream = stream;
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    /**
+     * Response of the {@link com.cesanta.cloud.LogService#delete delete} method.
+     */
+    public static final class DeleteResponse  {
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
     //-- List {{{
 
     /**
