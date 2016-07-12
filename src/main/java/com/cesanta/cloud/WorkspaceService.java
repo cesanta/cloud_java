@@ -77,6 +77,13 @@ public final class WorkspaceService {
     public static final class CreateArgs  {
 
         /**
+         * Hardware architecture; valid values are: esp8266, cc3200
+         */
+        @JsonProperty("arch")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String arch;
+
+        /**
          * Optionally, description of the workspace to clone from
          */
         @JsonProperty("cloneFrom")
@@ -111,6 +118,14 @@ public final class WorkspaceService {
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         private String template;
 
+
+        /**
+         * Set hardware architecture; valid values are: esp8266, cc3200
+         */
+        public CreateArgs arch(String arch) {
+            this.arch = arch;
+            return this;
+        }
 
         /**
          * Set optionally, description of the workspace to clone from

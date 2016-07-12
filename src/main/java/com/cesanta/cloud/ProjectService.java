@@ -176,6 +176,13 @@ public final class ProjectService {
     public static final class CreateArgs  {
 
         /**
+         * Hardware architecture; valid values are: esp8266, cc3200
+         */
+        @JsonProperty("arch")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String arch;
+
+        /**
          * Unique name of the project to clone from, in a format "owner/project-name".
          */
         @JsonProperty("cloneFrom")
@@ -210,6 +217,14 @@ public final class ProjectService {
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         private String template;
 
+
+        /**
+         * Set hardware architecture; valid values are: esp8266, cc3200
+         */
+        public CreateArgs arch(String arch) {
+            this.arch = arch;
+            return this;
+        }
 
         /**
          * Set unique name of the project to clone from, in a format "owner/project-name".
