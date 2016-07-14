@@ -146,6 +146,10 @@ public final class AuthService {
 
     public static final class AuthenticateResponse  {
 
+        @JsonProperty("id")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public String id;
+
         @JsonProperty("success")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         public Boolean success;
