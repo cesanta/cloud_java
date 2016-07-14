@@ -47,14 +47,14 @@ public final class AuthService {
      */
     public void authenticate(
             AuthService.AuthenticateArgs args,
-            CmdListener<Boolean> listener,
+            CmdListener<AuthService.AuthenticateResponse> listener,
             ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Auth.Authenticate",
                 args,
                 listener,
-                Boolean.class,
+                AuthService.AuthenticateResponse.class,
                 opts
                 );
     }
@@ -64,7 +64,7 @@ public final class AuthService {
      */
     public void authenticate(
             AuthService.AuthenticateArgs args,
-            CmdListener<Boolean> listener
+            CmdListener<AuthService.AuthenticateResponse> listener
             ) {
         authenticate(args, listener, defaultOpts);
     }
@@ -84,7 +84,7 @@ public final class AuthService {
         private AuthenticateArgsCredential credentials = new AuthenticateArgsCredential();
 
         /**
-         * ID of an entity to authenticate.
+         * ID of an entity to authenticate or a username.
          */
         @JsonProperty("id")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -100,7 +100,7 @@ public final class AuthService {
         }
 
         /**
-         * Set ID of an entity to authenticate.
+         * Set ID of an entity to authenticate or a username.
          */
         public AuthenticateArgs id(String id) {
             this.id = id;
@@ -143,6 +143,16 @@ public final class AuthService {
     // }}}
 
     //-- response {{{
+
+    public static final class AuthenticateResponse  {
+
+        @JsonProperty("success")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public Boolean success;
+
+
+    }
+
 
     // }}}
 
