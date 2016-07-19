@@ -167,6 +167,13 @@ public final class SWUpdateService {
         private String blob;
 
         /**
+         * type of the blob. Valid values: manifest, zip
+         */
+        @JsonProperty("blob_type")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String blob_type;
+
+        /**
          * URL pointing to the image if it's too big to fit in the `blob`.
          */
         @JsonProperty("blob_url")
@@ -200,6 +207,14 @@ public final class SWUpdateService {
          */
         public UpdateArgs blob(String blob) {
             this.blob = blob;
+            return this;
+        }
+
+        /**
+         * Set type of the blob. Valid values: manifest, zip
+         */
+        public UpdateArgs blob_type(String blob_type) {
+            this.blob_type = blob_type;
             return this;
         }
 
