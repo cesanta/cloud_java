@@ -41,7 +41,7 @@ public final class DispatcherService {
     //-- Hello {{{
 
     /**
-     * A simple echo service.
+     * A simple ping
      *
      * @param opts
      *      Options instance which will override current default options. If
@@ -51,24 +51,24 @@ public final class DispatcherService {
      */
     public void hello(
             DispatcherService.HelloArgs args,
-            CmdListener<DispatcherService.HelloResponse> listener,
+            CmdListener<String> listener,
             ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Dispatcher.Hello",
                 args,
                 listener,
-                DispatcherService.HelloResponse.class,
+                String.class,
                 opts
                 );
     }
 
     /**
-     * A simple echo service.
+     * A simple ping
      */
     public void hello(
             DispatcherService.HelloArgs args,
-            CmdListener<DispatcherService.HelloResponse> listener
+            CmdListener<String> listener
             ) {
         hello(args, listener, defaultOpts);
     }
@@ -88,10 +88,75 @@ public final class DispatcherService {
 
     //-- response {{{
 
+    // }}}
+
+    // }}}
+
+    //-- Help {{{
+
     /**
-     * Response of the {@link com.cesanta.cloud.DispatcherService#hello hello} method.
+     * Return basic info about the server
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      DispatcherService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
      */
-    public static final class HelloResponse  {
+    public void help(
+            DispatcherService.HelpArgs args,
+            CmdListener<DispatcherService.HelpResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Dispatcher.Help",
+                args,
+                listener,
+                DispatcherService.HelpResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * Return basic info about the server
+     */
+    public void help(
+            DispatcherService.HelpArgs args,
+            CmdListener<DispatcherService.HelpResponse> listener
+            ) {
+        help(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.DispatcherService#help help} method.
+     */
+    public static final class HelpArgs  {
+
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    public static final class HelpResponse  {
+
+        /**
+         * frontend url; useful for browser based auth
+         */
+        @JsonProperty("frontend")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public String frontend;
+
+        /**
+         * server time
+         */
+        @JsonProperty("time")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public Long time;
 
 
     }
