@@ -41,7 +41,7 @@ public final class DispatcherService {
     //-- Hello {{{
 
     /**
-     * A simple ping
+     * The dispatcher learns about destinations reachable through a given channel by looking at the frames that come through them. This means that before receiving commands a device has to send at least one command. This method, mapped on /v1/Hello, offers a simple and cheap way to achieve this goal. Devices without a battery backed realtime clock will find the piggybacked server time to be useful.
      *
      * @param opts
      *      Options instance which will override current default options. If
@@ -51,24 +51,24 @@ public final class DispatcherService {
      */
     public void hello(
             DispatcherService.HelloArgs args,
-            CmdListener<String> listener,
+            CmdListener<DispatcherService.HelloResponse> listener,
             ClubbyOptions opts
             ) {
         clubby.callBackend(
                 "/v1/Dispatcher.Hello",
                 args,
                 listener,
-                String.class,
+                DispatcherService.HelloResponse.class,
                 opts
                 );
     }
 
     /**
-     * A simple ping
+     * The dispatcher learns about destinations reachable through a given channel by looking at the frames that come through them. This means that before receiving commands a device has to send at least one command. This method, mapped on /v1/Hello, offers a simple and cheap way to achieve this goal. Devices without a battery backed realtime clock will find the piggybacked server time to be useful.
      */
     public void hello(
             DispatcherService.HelloArgs args,
-            CmdListener<String> listener
+            CmdListener<DispatcherService.HelloResponse> listener
             ) {
         hello(args, listener, defaultOpts);
     }
@@ -87,6 +87,19 @@ public final class DispatcherService {
     // }}}
 
     //-- response {{{
+
+    public static final class HelloResponse  {
+
+        /**
+         * server time
+         */
+        @JsonProperty("time")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public Long time;
+
+
+    }
+
 
     // }}}
 
@@ -150,13 +163,6 @@ public final class DispatcherService {
         @JsonProperty("frontend")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         public String frontend;
-
-        /**
-         * server time
-         */
-        @JsonProperty("time")
-        @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        public Long time;
 
 
     }

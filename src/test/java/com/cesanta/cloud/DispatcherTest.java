@@ -42,9 +42,9 @@ public class DispatcherTest extends CommonTest {
         setOk(false);
         dispatcher.hello(
                 new DispatcherService.HelloArgs(),
-                new CmdAdapter<String>() {
+                new CmdAdapter<DispatcherService.HelloResponse>() {
                     @Override
-                    public void onResponse(String response) {
+                    public void onResponse(DispatcherService.HelloResponse response) {
                         System.out.println("Got response on Dispatcher.Hello: OK");
                         setOk(true);
                         notifyTest();
