@@ -37,7 +37,7 @@ public class CommonTest {
             .backend("//api-ci.cesanta.com")
             .id("build-docker-agent." + UUID.randomUUID().toString())
             .psk(psk)
-            .timeout(5)
+            .timeout(20)
             .build();
         clubby.addListener(clubbyListener);
 
