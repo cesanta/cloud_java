@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Allows to manage arbitrary string labels for devices.
+ * Allows to manage arbitrary string labels for entities.
  */
 public final class LabelService {
 
@@ -41,7 +41,7 @@ public final class LabelService {
     //-- Delete {{{
 
     /**
-     * Deletes labels for devices.
+     * Deletes labels for entities.
      *
      * @param opts
      *      Options instance which will override current default options. If
@@ -64,7 +64,7 @@ public final class LabelService {
     }
 
     /**
-     * Deletes labels for devices.
+     * Deletes labels for entities.
      */
     public void delete(
             LabelService.DeleteArgs args,
@@ -81,7 +81,7 @@ public final class LabelService {
     public static final class DeleteArgs  {
 
         /**
-         * List of device IDs to delete labels for.
+         * List of entity IDs to delete labels for.
          */
         @JsonProperty("ids")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -96,7 +96,7 @@ public final class LabelService {
 
 
         /**
-         * Add an item to the list of device IDs to delete labels for.
+         * Add an item to the list of entity IDs to delete labels for.
          */
         public DeleteArgs id(String id) {
             this.ids.add(id);
@@ -134,7 +134,7 @@ public final class LabelService {
     //-- Get {{{
 
     /**
-     * Returns labels set on a particular devices.
+     * Returns labels set on a particular entities.
      *
      * @param opts
      *      Options instance which will override current default options. If
@@ -157,7 +157,7 @@ public final class LabelService {
     }
 
     /**
-     * Returns labels set on a particular devices.
+     * Returns labels set on a particular entities.
      */
     public void get(
             LabelService.GetArgs args,
@@ -174,7 +174,7 @@ public final class LabelService {
     public static final class GetArgs  {
 
         /**
-         * List of device IDs to fetch labels for.
+         * List of entity IDs to fetch labels for.
          */
         @JsonProperty("ids")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -189,7 +189,7 @@ public final class LabelService {
 
 
         /**
-         * Add an item to the list of device IDs to fetch labels for.
+         * Add an item to the list of entity IDs to fetch labels for.
          */
         public GetArgs id(String id) {
             this.ids.add(id);
@@ -243,7 +243,7 @@ public final class LabelService {
     //-- Set {{{
 
     /**
-     * Sets labels for devices.
+     * Sets labels for entities.
      *
      * @param opts
      *      Options instance which will override current default options. If
@@ -266,7 +266,7 @@ public final class LabelService {
     }
 
     /**
-     * Sets labels for devices.
+     * Sets labels for entities.
      */
     public void set(
             LabelService.SetArgs args,
@@ -283,7 +283,7 @@ public final class LabelService {
     public static final class SetArgs  {
 
         /**
-         * List of device IDs to set labels for.
+         * List of entity IDs to set labels for.
          */
         @JsonProperty("ids")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -298,7 +298,7 @@ public final class LabelService {
 
 
         /**
-         * Add an item to the list of device IDs to set labels for.
+         * Add an item to the list of entity IDs to set labels for.
          */
         public SetArgs id(String id) {
             this.ids.add(id);
