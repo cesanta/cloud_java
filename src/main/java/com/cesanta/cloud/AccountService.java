@@ -503,6 +503,103 @@ public final class AccountService {
 
     // }}}
 
+    //-- GetMembership {{{
+
+    /**
+     * Set group membership info.
+
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AccountService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void getMembership(
+            AccountService.GetMembershipArgs args,
+            CmdListener<AccountService.GetMembershipResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Account.GetMembership",
+                args,
+                listener,
+                AccountService.GetMembershipResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * Set group membership info.
+
+     */
+    public void getMembership(
+            AccountService.GetMembershipArgs args,
+            CmdListener<AccountService.GetMembershipResponse> listener
+            ) {
+        getMembership(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.AccountService#getMembership getMembership} method.
+     */
+    public static final class GetMembershipArgs  {
+
+        /**
+         * Account ID.
+         */
+        @JsonProperty("account")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String account;
+
+        /**
+         * Group ID.
+         */
+        @JsonProperty("group")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String group;
+
+
+        /**
+         * Set account ID.
+         */
+        public GetMembershipArgs account(String account) {
+            this.account = account;
+            return this;
+        }
+
+        /**
+         * Set group ID.
+         */
+        public GetMembershipArgs group(String group) {
+            this.group = group;
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    /**
+     * Response of the {@link com.cesanta.cloud.AccountService#getMembership getMembership} method.
+     */
+    public static final class GetMembershipResponse extends ArrayList<String> {
+
+        static final long serialVersionUID = 1;
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
     //-- ListGroups {{{
 
     /**
@@ -734,6 +831,118 @@ public final class AccountService {
      * Response of the {@link com.cesanta.cloud.AccountService#revokeToken revokeToken} method.
      */
     public static final class RevokeTokenResponse  {
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
+    //-- SetMembership {{{
+
+    /**
+     * Set group membership.
+To remove an account from a group pass an empty roles list
+
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AccountService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void setMembership(
+            AccountService.SetMembershipArgs args,
+            CmdListener<AccountService.SetMembershipResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Account.SetMembership",
+                args,
+                listener,
+                AccountService.SetMembershipResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * Set group membership.
+To remove an account from a group pass an empty roles list
+
+     */
+    public void setMembership(
+            AccountService.SetMembershipArgs args,
+            CmdListener<AccountService.SetMembershipResponse> listener
+            ) {
+        setMembership(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.AccountService#setMembership setMembership} method.
+     */
+    public static final class SetMembershipArgs  {
+
+        /**
+         * Account ID.
+         */
+        @JsonProperty("account")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String account;
+
+        /**
+         * Group ID.
+         */
+        @JsonProperty("group")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String group;
+
+        /**
+         * List of role names.
+         */
+        @JsonProperty("roles")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private List<String> roles = new ArrayList<String>();
+
+
+        /**
+         * Set account ID.
+         */
+        public SetMembershipArgs account(String account) {
+            this.account = account;
+            return this;
+        }
+
+        /**
+         * Set group ID.
+         */
+        public SetMembershipArgs group(String group) {
+            this.group = group;
+            return this;
+        }
+
+        /**
+         * Add an item to the list of role names.
+         */
+        public SetMembershipArgs role(String role) {
+            this.roles.add(role);
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    /**
+     * Response of the {@link com.cesanta.cloud.AccountService#setMembership setMembership} method.
+     */
+    public static final class SetMembershipResponse  {
 
 
     }
