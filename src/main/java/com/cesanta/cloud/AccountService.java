@@ -38,6 +38,101 @@ public final class AccountService {
     }
 
 
+    //-- CreateGroup {{{
+
+    /**
+     * Creates a new group.
+
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AccountService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void createGroup(
+            AccountService.CreateGroupArgs args,
+            CmdListener<AccountService.CreateGroupResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Account.CreateGroup",
+                args,
+                listener,
+                AccountService.CreateGroupResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * Creates a new group.
+
+     */
+    public void createGroup(
+            AccountService.CreateGroupArgs args,
+            CmdListener<AccountService.CreateGroupResponse> listener
+            ) {
+        createGroup(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.AccountService#createGroup createGroup} method.
+     */
+    public static final class CreateGroupArgs  {
+
+        /**
+         * ID for the new group.
+         */
+        @JsonProperty("id")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String id;
+
+        /**
+         * An object with labels to set. Object keys are label names, corresponding values are label values to set.
+         */
+        @JsonProperty("labels")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private Map<String, String> labels = new HashMap<String, String>();
+
+
+        /**
+         * Set ID for the new group.
+         */
+        public CreateGroupArgs id(String id) {
+            this.id = id;
+            return this;
+        }
+
+        /**
+         * Add an item to the an object with labels to set. Object keys are label names, corresponding values are label values to set.
+         */
+        public CreateGroupArgs label(String key, String label) {
+            this.labels.put(key, label);
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    /**
+     * Response of the {@link com.cesanta.cloud.AccountService#createGroup createGroup} method.
+     */
+    public static final class CreateGroupResponse  {
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
     //-- CreateToken {{{
 
     /**
@@ -230,6 +325,86 @@ public final class AccountService {
 
     // }}}
 
+    //-- DeleteGroup {{{
+
+    /**
+     * Deletes a group.
+
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AccountService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void deleteGroup(
+            AccountService.DeleteGroupArgs args,
+            CmdListener<AccountService.DeleteGroupResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Account.DeleteGroup",
+                args,
+                listener,
+                AccountService.DeleteGroupResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * Deletes a group.
+
+     */
+    public void deleteGroup(
+            AccountService.DeleteGroupArgs args,
+            CmdListener<AccountService.DeleteGroupResponse> listener
+            ) {
+        deleteGroup(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.AccountService#deleteGroup deleteGroup} method.
+     */
+    public static final class DeleteGroupArgs  {
+
+        /**
+         * ID for the group to be deleted.
+         */
+        @JsonProperty("id")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String id;
+
+
+        /**
+         * Set ID for the group to be deleted.
+         */
+        public DeleteGroupArgs id(String id) {
+            this.id = id;
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    /**
+     * Response of the {@link com.cesanta.cloud.AccountService#deleteGroup deleteGroup} method.
+     */
+    public static final class DeleteGroupResponse  {
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
     //-- GetInfo {{{
 
     /**
@@ -319,6 +494,88 @@ public final class AccountService {
         @JsonProperty("name")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         public String name;
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
+    //-- ListGroups {{{
+
+    /**
+     * List groups.
+
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AccountService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void listGroups(
+            AccountService.ListGroupsArgs args,
+            CmdListener<AccountService.ListGroupsResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Account.ListGroups",
+                args,
+                listener,
+                AccountService.ListGroupsResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * List groups.
+
+     */
+    public void listGroups(
+            AccountService.ListGroupsArgs args,
+            CmdListener<AccountService.ListGroupsResponse> listener
+            ) {
+        listGroups(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.AccountService#listGroups listGroups} method.
+     */
+    public static final class ListGroupsArgs  {
+
+        /**
+         * An object with labels to query for. Object keys are label names, corresponding values are label values.
+         */
+        @JsonProperty("labels")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private Map<String, String> labels = new HashMap<String, String>();
+
+
+        /**
+         * Add an item to the an object with labels to query for. Object keys are label names, corresponding values are label values.
+         */
+        public ListGroupsArgs label(String key, String label) {
+            this.labels.put(key, label);
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    /**
+     * Response of the {@link com.cesanta.cloud.AccountService#listGroups listGroups} method.
+     */
+    public static final class ListGroupsResponse extends ArrayList<String> {
+
+        static final long serialVersionUID = 1;
 
 
     }
