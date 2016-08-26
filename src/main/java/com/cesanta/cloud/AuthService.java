@@ -344,6 +344,103 @@ public final class AuthService {
 
     // }}}
 
+    //-- GetPolicy {{{
+
+    /**
+     * Returns the policies for a given subject.
+
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AuthService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void getPolicy(
+            AuthService.GetPolicyArgs args,
+            CmdListener<AuthService.GetPolicyResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Auth.GetPolicy",
+                args,
+                listener,
+                AuthService.GetPolicyResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * Returns the policies for a given subject.
+
+     */
+    public void getPolicy(
+            AuthService.GetPolicyArgs args,
+            CmdListener<AuthService.GetPolicyResponse> listener
+            ) {
+        getPolicy(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.AuthService#getPolicy getPolicy} method.
+     */
+    public static final class GetPolicyArgs  {
+
+        /**
+         * Entity ID of the policy object.
+         */
+        @JsonProperty("object")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String object;
+
+        /**
+         * Entity ID of the policy subject.
+         */
+        @JsonProperty("subject")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String subject;
+
+
+        /**
+         * Set entity ID of the policy object.
+         */
+        public GetPolicyArgs object(String object) {
+            this.object = object;
+            return this;
+        }
+
+        /**
+         * Set entity ID of the policy subject.
+         */
+        public GetPolicyArgs subject(String subject) {
+            this.subject = subject;
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    /**
+     * Response of the {@link com.cesanta.cloud.AuthService#getPolicy getPolicy} method.
+     */
+    public static final class GetPolicyResponse extends ArrayList<String> {
+
+        static final long serialVersionUID = 1;
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
     //-- GetToken {{{
 
     /**
@@ -577,6 +674,128 @@ public final class AuthService {
      * Response of the {@link com.cesanta.cloud.AuthService#revokeToken revokeToken} method.
      */
     public static final class RevokeTokenResponse  {
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
+    //-- SetPolicy {{{
+
+    /**
+     * Give a subject one or more access roles towards an object.
+E.g. granting (subject user foo, role writer, object device bar) will
+allow the user foo to perform operations that require the writer role
+on the device bar.
+A subject can be a group account as well.
+
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AuthService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void setPolicy(
+            AuthService.SetPolicyArgs args,
+            CmdListener<AuthService.SetPolicyResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Auth.SetPolicy",
+                args,
+                listener,
+                AuthService.SetPolicyResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * Give a subject one or more access roles towards an object.
+E.g. granting (subject user foo, role writer, object device bar) will
+allow the user foo to perform operations that require the writer role
+on the device bar.
+A subject can be a group account as well.
+
+     */
+    public void setPolicy(
+            AuthService.SetPolicyArgs args,
+            CmdListener<AuthService.SetPolicyResponse> listener
+            ) {
+        setPolicy(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.AuthService#setPolicy setPolicy} method.
+     */
+    public static final class SetPolicyArgs  {
+
+        /**
+         * Entity ID of the policy object.
+         */
+        @JsonProperty("object")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String object;
+
+        /**
+         * List of role names.
+Existing policy entries for roles not mentioned here will be removed.
+
+         */
+        @JsonProperty("roles")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private List<String> roles = new ArrayList<String>();
+
+        /**
+         * Entity ID of the policy subject.
+         */
+        @JsonProperty("subject")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String subject;
+
+
+        /**
+         * Set entity ID of the policy object.
+         */
+        public SetPolicyArgs object(String object) {
+            this.object = object;
+            return this;
+        }
+
+        /**
+         * Add an item to the list of role names.
+Existing policy entries for roles not mentioned here will be removed.
+
+         */
+        public SetPolicyArgs role(String role) {
+            this.roles.add(role);
+            return this;
+        }
+
+        /**
+         * Set entity ID of the policy subject.
+         */
+        public SetPolicyArgs subject(String subject) {
+            this.subject = subject;
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    /**
+     * Response of the {@link com.cesanta.cloud.AuthService#setPolicy setPolicy} method.
+     */
+    public static final class SetPolicyResponse  {
 
 
     }
