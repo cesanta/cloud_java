@@ -265,6 +265,109 @@ public final class AuthService {
 
     // }}}
 
+    //-- AuthorizeOperation {{{
+
+    /**
+     * Check whether the subject entity can perform a given operation
+on an object entity.
+
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AuthService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void authorizeOperation(
+            AuthService.AuthorizeOperationArgs args,
+            CmdListener<Boolean> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Auth.AuthorizeOperation",
+                args,
+                listener,
+                Boolean.class,
+                opts
+                );
+    }
+
+    /**
+     * Check whether the subject entity can perform a given operation
+on an object entity.
+
+     */
+    public void authorizeOperation(
+            AuthService.AuthorizeOperationArgs args,
+            CmdListener<Boolean> listener
+            ) {
+        authorizeOperation(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.AuthService#authorizeOperation authorizeOperation} method.
+     */
+    public static final class AuthorizeOperationArgs  {
+
+        /**
+         * Entity ID of the object.
+         */
+        @JsonProperty("object")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String object;
+
+        /**
+         * Operation name.
+         */
+        @JsonProperty("operation")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String operation;
+
+        /**
+         * Entity ID of the subject.
+         */
+        @JsonProperty("subject")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String subject;
+
+
+        /**
+         * Set entity ID of the object.
+         */
+        public AuthorizeOperationArgs object(String object) {
+            this.object = object;
+            return this;
+        }
+
+        /**
+         * Set operation name.
+         */
+        public AuthorizeOperationArgs operation(String operation) {
+            this.operation = operation;
+            return this;
+        }
+
+        /**
+         * Set entity ID of the subject.
+         */
+        public AuthorizeOperationArgs subject(String subject) {
+            this.subject = subject;
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    // }}}
+
+    // }}}
+
     //-- CreateRealm {{{
 
     /**
