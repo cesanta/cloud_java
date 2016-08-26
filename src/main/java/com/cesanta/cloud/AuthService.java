@@ -265,6 +265,222 @@ public final class AuthService {
 
     // }}}
 
+    //-- CreateRealm {{{
+
+    /**
+     * Create a realm
+
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AuthService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void createRealm(
+            AuthService.CreateRealmArgs args,
+            CmdListener<AuthService.CreateRealmResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Auth.CreateRealm",
+                args,
+                listener,
+                AuthService.CreateRealmResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * Create a realm
+
+     */
+    public void createRealm(
+            AuthService.CreateRealmArgs args,
+            CmdListener<AuthService.CreateRealmResponse> listener
+            ) {
+        createRealm(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.AuthService#createRealm createRealm} method.
+     */
+    public static final class CreateRealmArgs  {
+
+        /**
+         * Realm name.
+         */
+        @JsonProperty("realm")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String realm;
+
+
+        /**
+         * Set realm name.
+         */
+        public CreateRealmArgs realm(String realm) {
+            this.realm = realm;
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    /**
+     * Response of the {@link com.cesanta.cloud.AuthService#createRealm createRealm} method.
+     */
+    public static final class CreateRealmResponse  {
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
+    //-- DefineRoleOps {{{
+
+    /**
+     * Defines the role<->operations mappings for a given
+realm. Custom backends and firmwares can extend the Mongoose IoT API
+but all operations defined by user code live in its own realm.
+Devices and services are also associated with realms. This allows the
+authorization backend to namespace custom methods and their associated roles.
+
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AuthService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void defineRoleOps(
+            AuthService.DefineRoleOpsArgs args,
+            CmdListener<AuthService.DefineRoleOpsResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Auth.DefineRoleOps",
+                args,
+                listener,
+                AuthService.DefineRoleOpsResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * Defines the role<->operations mappings for a given
+realm. Custom backends and firmwares can extend the Mongoose IoT API
+but all operations defined by user code live in its own realm.
+Devices and services are also associated with realms. This allows the
+authorization backend to namespace custom methods and their associated roles.
+
+     */
+    public void defineRoleOps(
+            AuthService.DefineRoleOpsArgs args,
+            CmdListener<AuthService.DefineRoleOpsResponse> listener
+            ) {
+        defineRoleOps(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.AuthService#defineRoleOps defineRoleOps} method.
+     */
+    public static final class DefineRoleOpsArgs  {
+
+        @JsonProperty("operations")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private List<DefineRoleOpsArgsOperation> operations = new ArrayList<DefineRoleOpsArgsOperation>();
+
+        /**
+         * Realm name.
+         */
+        @JsonProperty("realm")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String realm;
+
+
+        /**
+         * Add an item to the operations
+         */
+        public DefineRoleOpsArgs operation(DefineRoleOpsArgsOperation operation) {
+            this.operations.add(operation);
+            return this;
+        }
+
+        /**
+         * Set realm name.
+         */
+        public DefineRoleOpsArgs realm(String realm) {
+            this.realm = realm;
+            return this;
+        }
+
+    }
+
+
+    public static final class DefineRoleOpsArgsOperation  {
+
+        /**
+         * Operation name.
+         */
+        @JsonProperty("operation")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String operation;
+
+        /**
+         * Role name.
+         */
+        @JsonProperty("role")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String role;
+
+
+        /**
+         * Set operation name.
+         */
+        public DefineRoleOpsArgsOperation operation(String operation) {
+            this.operation = operation;
+            return this;
+        }
+
+        /**
+         * Set role name.
+         */
+        public DefineRoleOpsArgsOperation role(String role) {
+            this.role = role;
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    /**
+     * Response of the {@link com.cesanta.cloud.AuthService#defineRoleOps defineRoleOps} method.
+     */
+    public static final class DefineRoleOpsResponse  {
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
     //-- GenerateToken {{{
 
     /**
