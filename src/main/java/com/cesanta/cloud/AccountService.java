@@ -645,12 +645,27 @@ public final class AccountService {
     public static final class ListGroupsArgs  {
 
         /**
+         * Optional account name or ID. If omitted sender is implied.
+         */
+        @JsonProperty("account")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String account;
+
+        /**
          * An object with labels to query for. Object keys are label names, corresponding values are label values.
          */
         @JsonProperty("labels")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         private Map<String, String> labels = new HashMap<String, String>();
 
+
+        /**
+         * Set optional account name or ID. If omitted sender is implied.
+         */
+        public ListGroupsArgs account(String account) {
+            this.account = account;
+            return this;
+        }
 
         /**
          * Add an item to the an object with labels to query for. Object keys are label names, corresponding values are label values.
