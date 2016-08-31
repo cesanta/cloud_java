@@ -137,6 +137,7 @@ public final class AccountService {
 
     /**
      * Generate a personal access token that can be passed in GET parameters instead user/psk pair
+
      *
      * @param opts
      *      Options instance which will override current default options. If
@@ -160,6 +161,7 @@ public final class AccountService {
 
     /**
      * Generate a personal access token that can be passed in GET parameters instead user/psk pair
+
      */
     public void createToken(
             AccountService.CreateTokenArgs args,
@@ -408,7 +410,10 @@ public final class AccountService {
     //-- GetInfo {{{
 
     /**
-     * Retrieves info about an existing user. If id is present, info is fetched by id. Otherwise, if name is present, info is fetched by name. Otherwise, it's an error.
+     * Retrieves info about an existing user.
+If id is present, info is fetched by id. Otherwise, if name is present, info is fetched by name.
+Otherwise, it's an error.
+
      *
      * @param opts
      *      Options instance which will override current default options. If
@@ -431,7 +436,10 @@ public final class AccountService {
     }
 
     /**
-     * Retrieves info about an existing user. If id is present, info is fetched by id. Otherwise, if name is present, info is fetched by name. Otherwise, it's an error.
+     * Retrieves info about an existing user.
+If id is present, info is fetched by id. Otherwise, if name is present, info is fetched by name.
+Otherwise, it's an error.
+
      */
     public void getInfo(
             AccountService.GetInfoArgs args,
@@ -700,7 +708,8 @@ public final class AccountService {
     //-- ListTokens {{{
 
     /**
-     * List tokens
+     * List tokens.
+
      *
      * @param opts
      *      Options instance which will override current default options. If
@@ -723,7 +732,8 @@ public final class AccountService {
     }
 
     /**
-     * List tokens
+     * List tokens.
+
      */
     public void listTokens(
             AccountService.ListTokensArgs args,
@@ -783,7 +793,8 @@ public final class AccountService {
     //-- RevokeToken {{{
 
     /**
-     * Delete the token
+     * Delete the token.
+
      *
      * @param opts
      *      Options instance which will override current default options. If
@@ -806,7 +817,8 @@ public final class AccountService {
     }
 
     /**
-     * Delete the token
+     * Delete the token.
+
      */
     public void revokeToken(
             AccountService.RevokeTokenArgs args,
@@ -970,7 +982,8 @@ To remove an account from a group pass an empty roles list
     //-- UserExists {{{
 
     /**
-     * Returns whether the user exists
+     * Returns whether the user exists.
+
      *
      * @param opts
      *      Options instance which will override current default options. If
@@ -993,7 +1006,8 @@ To remove an account from a group pass an empty roles list
     }
 
     /**
-     * Returns whether the user exists
+     * Returns whether the user exists.
+
      */
     public void userExists(
             AccountService.UserExistsArgs args,
@@ -1064,7 +1078,8 @@ To remove an account from a group pass an empty roles list
     //-- ValidateToken {{{
 
     /**
-     * validates a token and returns the user ID associated with it
+     * Validates a token and returns the user ID associated with it.
+
      *
      * @param opts
      *      Options instance which will override current default options. If
@@ -1087,7 +1102,8 @@ To remove an account from a group pass an empty roles list
     }
 
     /**
-     * validates a token and returns the user ID associated with it
+     * Validates a token and returns the user ID associated with it.
+
      */
     public void validateToken(
             AccountService.ValidateTokenArgs args,

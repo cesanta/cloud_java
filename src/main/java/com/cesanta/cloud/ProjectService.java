@@ -42,6 +42,7 @@ public final class ProjectService {
 
     /**
      * Checks if a given user has a specified level of access to a given project.
+
      *
      * @param opts
      *      Options instance which will override current default options. If
@@ -65,6 +66,7 @@ public final class ProjectService {
 
     /**
      * Checks if a given user has a specified level of access to a given project.
+
      */
     public void checkAccess(
             ProjectService.CheckAccessArgs args,
@@ -284,7 +286,7 @@ public final class ProjectService {
     //-- Delete {{{
 
     /**
-     * Deletes a project
+     * Deletes a project.
      *
      * @param opts
      *      Options instance which will override current default options. If
@@ -307,7 +309,7 @@ public final class ProjectService {
     }
 
     /**
-     * Deletes a project
+     * Deletes a project.
      */
     public void delete(
             ProjectService.DeleteArgs args,
@@ -362,7 +364,9 @@ public final class ProjectService {
     //-- Get {{{
 
     /**
-     * Returns project info for a given project. If id is given, it is used. Otherwise, name is used. Otherwise, it's an error.
+     * Returns project info for a given project.
+If id is given, it is used. Otherwise, name is used. Otherwise, it's an error.
+
      *
      * @param opts
      *      Options instance which will override current default options. If
@@ -385,7 +389,9 @@ public final class ProjectService {
     }
 
     /**
-     * Returns project info for a given project. If id is given, it is used. Otherwise, name is used. Otherwise, it's an error.
+     * Returns project info for a given project.
+If id is given, it is used. Otherwise, name is used. Otherwise, it's an error.
+
      */
     public void get(
             ProjectService.GetArgs args,

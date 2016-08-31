@@ -119,7 +119,8 @@ public final class BlobService {
     //-- Get {{{
 
     /**
-     * 
+     * Retrieves data at a given key.
+
      *
      * @param opts
      *      Options instance which will override current default options. If
@@ -142,7 +143,8 @@ public final class BlobService {
     }
 
     /**
-     * 
+     * Retrieves data at a given key.
+
      */
     public void get(
             BlobService.GetArgs args,
@@ -188,7 +190,13 @@ public final class BlobService {
     //-- List {{{
 
     /**
-     * Returns a list of all keys with a given prefix. Within that prefix, items can be iterated from a specific start key (inclusive), up to an optional end key (non inclusive). If inclusive is false (true by default), then the start key is non inclusive. The result can be limited to a given number of items with the limit parameter.
+     * Returns a list of all keys with a given prefix.
+Within that prefix, items can be iterated from a specific
+start key (inclusive), up to an optional end key (non inclusive).
+If inclusive is false (true by default), then the start key is non
+inclusive. The result can be limited to a given number of items with
+the limit parameter.
+
      *
      * @param opts
      *      Options instance which will override current default options. If
@@ -211,7 +219,13 @@ public final class BlobService {
     }
 
     /**
-     * Returns a list of all keys with a given prefix. Within that prefix, items can be iterated from a specific start key (inclusive), up to an optional end key (non inclusive). If inclusive is false (true by default), then the start key is non inclusive. The result can be limited to a given number of items with the limit parameter.
+     * Returns a list of all keys with a given prefix.
+Within that prefix, items can be iterated from a specific
+start key (inclusive), up to an optional end key (non inclusive).
+If inclusive is false (true by default), then the start key is non
+inclusive. The result can be limited to a given number of items with
+the limit parameter.
+
      */
     public void list(
             BlobService.ListArgs args,
@@ -328,7 +342,9 @@ public final class BlobService {
     //-- Set {{{
 
     /**
-     * Stores data at a given key. If binary flag is set, value must be an array of numbers in 0-255 range.
+     * Stores data at a given key.
+If binary flag is set, value must be an array of numbers in 0-255 range.
+
      *
      * @param opts
      *      Options instance which will override current default options. If
@@ -351,7 +367,9 @@ public final class BlobService {
     }
 
     /**
-     * Stores data at a given key. If binary flag is set, value must be an array of numbers in 0-255 range.
+     * Stores data at a given key.
+If binary flag is set, value must be an array of numbers in 0-255 range.
+
      */
     public void set(
             BlobService.SetArgs args,
