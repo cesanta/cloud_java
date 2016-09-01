@@ -820,6 +820,118 @@ Otherwise, it's an error.
 
     // }}}
 
+    //-- Login {{{
+
+    /**
+     * Log in with username+password.
+
+Returns the credentials (ID + token) required to access the API.
+NOTE: this method can be called from an unauthenticated connection.
+
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AccountService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void login(
+            AccountService.LoginArgs args,
+            CmdListener<AccountService.LoginResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Account.Login",
+                args,
+                listener,
+                AccountService.LoginResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * Log in with username+password.
+
+Returns the credentials (ID + token) required to access the API.
+NOTE: this method can be called from an unauthenticated connection.
+
+     */
+    public void login(
+            AccountService.LoginArgs args,
+            CmdListener<AccountService.LoginResponse> listener
+            ) {
+        login(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.AccountService#login login} method.
+     */
+    public static final class LoginArgs  {
+
+        /**
+         * Password.
+         */
+        @JsonProperty("password")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String password;
+
+        /**
+         * Username (usually the email address).
+         */
+        @JsonProperty("username")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String username;
+
+
+        /**
+         * Set password.
+         */
+        public LoginArgs password(String password) {
+            this.password = password;
+            return this;
+        }
+
+        /**
+         * Set username (usually the email address).
+         */
+        public LoginArgs username(String username) {
+            this.username = username;
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    public static final class LoginResponse  {
+
+        /**
+         * ID to be used to authenticate to the API.
+         */
+        @JsonProperty("id")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public String id;
+
+        /**
+         * Token to be used to authenticate to the API.
+         */
+        @JsonProperty("token")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public String token;
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
     //-- RevokeToken {{{
 
     /**
