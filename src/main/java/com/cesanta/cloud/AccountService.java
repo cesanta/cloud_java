@@ -178,7 +178,14 @@ public final class AccountService {
     public static final class CreateTokenArgs  {
 
         /**
-         * displayed when listing the tokens
+         * Optional account ID. If omitted caller is implied.
+         */
+        @JsonProperty("account")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String account;
+
+        /**
+         * Displayed when listing the tokens.
          */
         @JsonProperty("description")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -186,7 +193,15 @@ public final class AccountService {
 
 
         /**
-         * Set displayed when listing the tokens
+         * Set optional account ID. If omitted caller is implied.
+         */
+        public CreateTokenArgs account(String account) {
+            this.account = account;
+            return this;
+        }
+
+        /**
+         * Set displayed when listing the tokens.
          */
         public CreateTokenArgs description(String description) {
             this.description = description;
@@ -749,6 +764,21 @@ Otherwise, it's an error.
      */
     public static final class ListTokensArgs  {
 
+        /**
+         * Account ID. If omitted caller is implied.
+         */
+        @JsonProperty("account")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String account;
+
+
+        /**
+         * Set account ID. If omitted caller is implied.
+         */
+        public ListTokensArgs account(String account) {
+            this.account = account;
+            return this;
+        }
 
     }
 
