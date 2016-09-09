@@ -88,6 +88,16 @@ public final class DeviceService {
         private String deviceid;
 
         /**
+         * If set to `true`, then it won't be an error to call this method for
+an already existing (and owned by the same user) device; instead, 
+it will just update device psk.
+
+         */
+        @JsonProperty("force")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private Boolean force;
+
+        /**
          * Optional name of the account to add device to.
          */
         @JsonProperty("owner")
@@ -107,6 +117,17 @@ public final class DeviceService {
          */
         public AddArgs deviceid(String deviceid) {
             this.deviceid = deviceid;
+            return this;
+        }
+
+        /**
+         * Set if set to `true`, then it won't be an error to call this method for
+an already existing (and owned by the same user) device; instead, 
+it will just update device psk.
+
+         */
+        public AddArgs force(boolean force) {
+            this.force = force;
             return this;
         }
 
