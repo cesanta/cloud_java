@@ -932,6 +932,128 @@ NOTE: this method can be called from an unauthenticated connection.
 
     // }}}
 
+    //-- RegisterUser {{{
+
+    /**
+     * Register a new user.
+It returns the same info as Login.
+NOTE: this method can be called from an unauthenticated connection.
+
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AccountService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void registerUser(
+            AccountService.RegisterUserArgs args,
+            CmdListener<AccountService.RegisterUserResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Account.RegisterUser",
+                args,
+                listener,
+                AccountService.RegisterUserResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * Register a new user.
+It returns the same info as Login.
+NOTE: this method can be called from an unauthenticated connection.
+
+     */
+    public void registerUser(
+            AccountService.RegisterUserArgs args,
+            CmdListener<AccountService.RegisterUserResponse> listener
+            ) {
+        registerUser(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.AccountService#registerUser registerUser} method.
+     */
+    public static final class RegisterUserArgs  {
+
+        /**
+         * email
+         */
+        @JsonProperty("email")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String email;
+
+        @JsonProperty("password")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String password;
+
+        /**
+         * Username. If omitted, the email will be used as username.
+         */
+        @JsonProperty("username")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String username;
+
+
+        /**
+         * Set email
+         */
+        public RegisterUserArgs email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        /**
+         * Set password
+         */
+        public RegisterUserArgs password(String password) {
+            this.password = password;
+            return this;
+        }
+
+        /**
+         * Set username. If omitted, the email will be used as username.
+         */
+        public RegisterUserArgs username(String username) {
+            this.username = username;
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    public static final class RegisterUserResponse  {
+
+        /**
+         * ID to be used to authenticate to the API.
+         */
+        @JsonProperty("id")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public String id;
+
+        /**
+         * Token to be used to authenticate to the API.
+         */
+        @JsonProperty("token")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public String token;
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
     //-- RevokeToken {{{
 
     /**
