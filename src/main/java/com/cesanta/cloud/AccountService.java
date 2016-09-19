@@ -38,6 +38,103 @@ public final class AccountService {
     }
 
 
+    //-- ConfirmUserRegistration {{{
+
+    /**
+     * Confirm the identity (e.g. email) given to RegisterUser by providing a
+code sent to the user. This method returns the same info as Login: an
+ID and a token.
+NOTE: this method can be called from an unauthenticated connection.
+
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      AccountService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void confirmUserRegistration(
+            AccountService.ConfirmUserRegistrationArgs args,
+            CmdListener<AccountService.ConfirmUserRegistrationResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Account.ConfirmUserRegistration",
+                args,
+                listener,
+                AccountService.ConfirmUserRegistrationResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * Confirm the identity (e.g. email) given to RegisterUser by providing a
+code sent to the user. This method returns the same info as Login: an
+ID and a token.
+NOTE: this method can be called from an unauthenticated connection.
+
+     */
+    public void confirmUserRegistration(
+            AccountService.ConfirmUserRegistrationArgs args,
+            CmdListener<AccountService.ConfirmUserRegistrationResponse> listener
+            ) {
+        confirmUserRegistration(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.AccountService#confirmUserRegistration confirmUserRegistration} method.
+     */
+    public static final class ConfirmUserRegistrationArgs  {
+
+        /**
+         * Confirmation code
+         */
+        @JsonProperty("code")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String code;
+
+
+        /**
+         * Set confirmation code
+         */
+        public ConfirmUserRegistrationArgs code(String code) {
+            this.code = code;
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    public static final class ConfirmUserRegistrationResponse  {
+
+        /**
+         * ID to be used to authenticate to the API.
+         */
+        @JsonProperty("id")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public String id;
+
+        /**
+         * Token to be used to authenticate to the API.
+         */
+        @JsonProperty("token")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public String token;
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
     //-- CreateGroup {{{
 
     /**
@@ -935,8 +1032,7 @@ NOTE: this method can be called from an unauthenticated connection.
     //-- RegisterUser {{{
 
     /**
-     * Register a new user.
-It returns the same info as Login.
+     * Register a new user. It sends the confirmation code to the email.
 NOTE: this method can be called from an unauthenticated connection.
 
      *
@@ -961,8 +1057,7 @@ NOTE: this method can be called from an unauthenticated connection.
     }
 
     /**
-     * Register a new user.
-It returns the same info as Login.
+     * Register a new user. It sends the confirmation code to the email.
 NOTE: this method can be called from an unauthenticated connection.
 
      */
@@ -1033,18 +1128,13 @@ NOTE: this method can be called from an unauthenticated connection.
     public static final class RegisterUserResponse  {
 
         /**
-         * ID to be used to authenticate to the API.
-         */
-        @JsonProperty("id")
-        @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        public String id;
+         * Number of seconds after which the code sent to the email will be
+expired.
 
-        /**
-         * Token to be used to authenticate to the API.
          */
-        @JsonProperty("token")
+        @JsonProperty("expiresInSeconds")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        public String token;
+        public Long expiresInSeconds;
 
 
     }
