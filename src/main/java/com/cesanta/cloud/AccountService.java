@@ -373,6 +373,13 @@ NOTE: this method can be called from an unauthenticated connection.
         private String id;
 
         /**
+         * An object with labels to set. Object keys are label names, corresponding values are label values to set.
+         */
+        @JsonProperty("labels")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private Map<String, String> labels = new HashMap<String, String>();
+
+        /**
          * Display name for the user.
          */
         @JsonProperty("name")
@@ -400,6 +407,14 @@ NOTE: this method can be called from an unauthenticated connection.
          */
         public CreateUserArgs id(String id) {
             this.id = id;
+            return this;
+        }
+
+        /**
+         * Add an item to the an object with labels to set. Object keys are label names, corresponding values are label values to set.
+         */
+        public CreateUserArgs label(String key, String label) {
+            this.labels.put(key, label);
             return this;
         }
 
@@ -1082,12 +1097,19 @@ NOTE: this method can be called from an unauthenticated connection.
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         private String email;
 
+        /**
+         * An object with labels to set. Object keys are label names, corresponding values are label values to set. Users are encouraged to set at least 2 labels: "name" (which is a real name like "Jack London") and "company".
+         */
+        @JsonProperty("labels")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private Map<String, String> labels = new HashMap<String, String>();
+
         @JsonProperty("password")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         private String password;
 
         /**
-         * Username. If omitted, the email will be used as username.
+         * Optional username. If omitted, the email will be used as username.
          */
         @JsonProperty("username")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -1103,6 +1125,14 @@ NOTE: this method can be called from an unauthenticated connection.
         }
 
         /**
+         * Add an item to the an object with labels to set. Object keys are label names, corresponding values are label values to set. Users are encouraged to set at least 2 labels: "name" (which is a real name like "Jack London") and "company".
+         */
+        public RegisterUserArgs label(String key, String label) {
+            this.labels.put(key, label);
+            return this;
+        }
+
+        /**
          * Set password
          */
         public RegisterUserArgs password(String password) {
@@ -1111,7 +1141,7 @@ NOTE: this method can be called from an unauthenticated connection.
         }
 
         /**
-         * Set username. If omitted, the email will be used as username.
+         * Set optional username. If omitted, the email will be used as username.
          */
         public RegisterUserArgs username(String username) {
             this.username = username;
