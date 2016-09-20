@@ -45,7 +45,7 @@ public final class AccountService {
     /**
      * Confirm the identity (e.g. email) given to RegisterUser by providing a
 code sent to the user. This method returns the same info as Login: an
-ID and a token.
+ID and a token; plus the username which can be used for Login.
 NOTE: this method can be called from an unauthenticated connection.
 
      *
@@ -72,7 +72,7 @@ NOTE: this method can be called from an unauthenticated connection.
     /**
      * Confirm the identity (e.g. email) given to RegisterUser by providing a
 code sent to the user. This method returns the same info as Login: an
-ID and a token.
+ID and a token; plus the username which can be used for Login.
 NOTE: this method can be called from an unauthenticated connection.
 
      */
@@ -128,6 +128,13 @@ NOTE: this method can be called from an unauthenticated connection.
         @JsonProperty("token")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         public String token;
+
+        /**
+         * Username used for registration (can be used for Login method)
+         */
+        @JsonProperty("username")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public String username;
 
 
     }
@@ -1167,6 +1174,15 @@ expired.
         @JsonProperty("expiresInSeconds")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         public Long expiresInSeconds;
+
+        /**
+         * Human-readable status message, like: "Email with the confirmation
+code was sent to foo@bar.com"
+
+         */
+        @JsonProperty("status")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public String status;
 
 
     }
