@@ -501,11 +501,11 @@ it will just update device psk.
         private String account;
 
         /**
-         * Filter expression, currently only 'labelname=labelvalue' supported.
+         * An object with labels to query for. Object keys are label names, corresponding values are label values.
          */
-        @JsonProperty("filter")
+        @JsonProperty("labels")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
-        private String filter;
+        private Map<String, String> labels = new HashMap<String, String>();
 
 
         /**
@@ -517,10 +517,10 @@ it will just update device psk.
         }
 
         /**
-         * Set filter expression, currently only 'labelname=labelvalue' supported.
+         * Add an item to the an object with labels to query for. Object keys are label names, corresponding values are label values.
          */
-        public ListArgs filter(String filter) {
-            this.filter = filter;
+        public ListArgs label(String key, String label) {
+            this.labels.put(key, label);
             return this;
         }
 
