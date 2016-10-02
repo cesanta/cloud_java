@@ -258,6 +258,13 @@ the limit parameter.
         private Boolean inclusive;
 
         /**
+         * Only return the N last entries.
+         */
+        @JsonProperty("last")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private Long last;
+
+        /**
          * Maximum number of entries to return.
          */
         @JsonProperty("limit")
@@ -292,6 +299,14 @@ the limit parameter.
          */
         public ListArgs inclusive(boolean inclusive) {
             this.inclusive = inclusive;
+            return this;
+        }
+
+        /**
+         * Set only return the N last entries.
+         */
+        public ListArgs last(long last) {
+            this.last = last;
             return this;
         }
 

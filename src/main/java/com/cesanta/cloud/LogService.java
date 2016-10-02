@@ -199,6 +199,13 @@ token for the optional "after" argument.
         private Boolean follow;
 
         /**
+         * Only return the N last entries.
+         */
+        @JsonProperty("last")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private Long last;
+
+        /**
          * Maximum number of entries to return.
          */
         @JsonProperty("limit")
@@ -233,6 +240,14 @@ token for the optional "after" argument.
          */
         public ListArgs follow(boolean follow) {
             this.follow = follow;
+            return this;
+        }
+
+        /**
+         * Set only return the N last entries.
+         */
+        public ListArgs last(long last) {
+            this.last = last;
             return this;
         }
 
