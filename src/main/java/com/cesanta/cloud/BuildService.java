@@ -83,12 +83,27 @@ public final class BuildService {
     public static final class BuildArgs  {
 
         /**
+         * User ID that spawned the build. Can only be set by privileged middleware.
+         */
+        @JsonProperty("user")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String user;
+
+        /**
          * Path on the blobstore service to the root of the workspace to be built
          */
         @JsonProperty("workspace")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         private List<String> workspace = new ArrayList<String>();
 
+
+        /**
+         * Set user ID that spawned the build. Can only be set by privileged middleware.
+         */
+        public BuildArgs user(String user) {
+            this.user = user;
+            return this;
+        }
 
         /**
          * Add an item to the path on the blobstore service to the root of the workspace to be built

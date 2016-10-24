@@ -474,6 +474,97 @@ size, no error is returned, and the returned data will be null.
 
     // }}}
 
+    //-- Stat {{{
+
+    /**
+     * Returns file metadata.
+
+     *
+     * @param opts
+     *      Options instance which will override current default options. If
+     *      there is a need to override defaults, use {@link
+     *      FilesystemService#getOptions() getOptions()} to get current defaults, and then
+     *      modify received options object in some way.
+     */
+    public void stat(
+            FilesystemService.StatArgs args,
+            CmdListener<FilesystemService.StatResponse> listener,
+            ClubbyOptions opts
+            ) {
+        clubby.callBackend(
+                "/v1/Filesystem.Stat",
+                args,
+                listener,
+                FilesystemService.StatResponse.class,
+                opts
+                );
+    }
+
+    /**
+     * Returns file metadata.
+
+     */
+    public void stat(
+            FilesystemService.StatArgs args,
+            CmdListener<FilesystemService.StatResponse> listener
+            ) {
+        stat(args, listener, defaultOpts);
+    }
+
+    //-- args {{{
+
+    /**
+     * Arguments for the {@link com.cesanta.cloud.FilesystemService#stat stat} method.
+     */
+    public static final class StatArgs  {
+
+        /**
+         * File/dir path.
+         */
+        @JsonProperty("path")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        private String path;
+
+
+        /**
+         * Set file/dir path.
+         */
+        public StatArgs path(String path) {
+            this.path = path;
+            return this;
+        }
+
+    }
+
+
+    // }}}
+
+    //-- response {{{
+
+    public static final class StatResponse  {
+
+        /**
+         * True if a directory.
+         */
+        @JsonProperty("is_dir")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public Boolean is_dir;
+
+        /**
+         * Size in bytes.
+         */
+        @JsonProperty("size")
+        @JsonInclude(JsonInclude.Include.NON_EMPTY)
+        public Long size;
+
+
+    }
+
+
+    // }}}
+
+    // }}}
+
     //-- Write {{{
 
     /**
