@@ -454,7 +454,7 @@ on an object entity.
 
     /**
      * Defines the role<->operations mappings for a given
-realm. Custom backends and firmwares can extend the Mongoose IoT API
+realm. Custom backends and firmwares can extend the Mongoose OS API
 but all operations defined by user code live in its own realm.
 Devices and services are also associated with realms. This allows the
 authorization backend to namespace custom methods and their associated roles.
@@ -482,7 +482,7 @@ authorization backend to namespace custom methods and their associated roles.
 
     /**
      * Defines the role<->operations mappings for a given
-realm. Custom backends and firmwares can extend the Mongoose IoT API
+realm. Custom backends and firmwares can extend the Mongoose OS API
 but all operations defined by user code live in its own realm.
 Devices and services are also associated with realms. This allows the
 authorization backend to namespace custom methods and their associated roles.

@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The Moncruise service allows dynamically size a group of VMs. Groups and rules are defined in a configuration file. Methods in this service allows callers to manually size the groups and obtain stats from the miot tool without having to open the status page.
+ * The Moncruise service allows dynamically size a group of VMs. Groups and rules are defined in a configuration file. Methods in this service allows callers to manually size the groups and obtain stats from the mgos tool without having to open the status page.
  */
 public final class MoncruiseService {
 
